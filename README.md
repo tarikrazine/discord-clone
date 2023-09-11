@@ -1,1 +1,1 @@
-Discord clone next.js tailwind Drizzle turso socket.io 
+Discord clone next.js tailwind Drizzle turso socket.io
