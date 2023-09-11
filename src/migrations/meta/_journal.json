@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1694475271132,
+      "tag": "0000_loud_sharon_carter",
+      "breakpoints": true
+    }
+  ]
+}
