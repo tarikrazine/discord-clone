@@ -24,8 +24,8 @@ export const member = sqliteTable("member", {
   updatedAt: integer("updated_at", { mode: "timestamp" }),
 }, (member) => {
   return {
-    profileIdx: index("profile_idx").on(member.profileId),
-    serverIdx: index("server_idx").on(member.serverId),
+    profileIdx: index("profile_member_idx").on(member.profileId),
+    serverIdx: index("server_member_idx").on(member.serverId),
   };
 });
 

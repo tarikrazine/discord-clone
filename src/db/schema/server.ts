@@ -24,7 +24,7 @@ export const server = sqliteTable(
   },
   (server) => {
     return {
-      profileIdx: index("profile_idx").on(server.profileId),
+      profileIdx: index("profile_server_idx").on(server.profileId),
     };
   },
 );
@@ -40,6 +40,6 @@ export const membersRelations = relations(server, ({ many }) => ({
   members: many(member),
 }));
 
-export const channelsRelations = relations(profile, ({ many }) => ({
+export const channelsRelations = relations(server, ({ many }) => ({
   channels: many(channel),
 }));

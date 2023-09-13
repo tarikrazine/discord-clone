@@ -22,10 +22,10 @@ export const channel = sqliteTable("channel", {
   }),
   createdAt: integer("created_at", { mode: "timestamp" }),
   updatedAt: integer("updated_at", { mode: "timestamp" }),
-}, (member) => {
+}, (channel) => {
   return {
-    profileIdx: index("profile_idx").on(member.profileId),
-    serverIdx: index("server_idx").on(member.serverId),
+    profileIdx: index("profile_channel_idx").on(channel.profileId),
+    serverIdx: index("server_channel_idx").on(channel.serverId),
   };
 });
 
