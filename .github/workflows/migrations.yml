@@ -11,9 +11,6 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v3
 
-      - name: Use Typescript
-        uses: actions/typescript-action@v1
-
       - name: pnpm install
         run: pnpm install --frozen-lockfile
 
