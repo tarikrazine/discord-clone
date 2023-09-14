@@ -5,8 +5,6 @@ export default {
   out: "./src/migrations",
   driver: "turso",
   dbCredentials: {
-    // url: process.env.DATABASE_URL!,
-    // authToken: process.env.DATABASE_AUTH_TOKEN!,
     url: "file:./local.db",
   },
   // Print all statements

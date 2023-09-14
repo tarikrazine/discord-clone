@@ -7,6 +7,10 @@ jobs:
     name: Migrations
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
+
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
@@ -14,6 +18,10 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8
+
+      - shell: bash
+        run: |
+          echo "$DATABASE_URL"
 
       - name: pnpm install
         run: pnpm install
