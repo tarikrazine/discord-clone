@@ -1,4 +1,7 @@
 import type { Config } from "drizzle-kit";
+import { config } from "dotenv";
+
+config({ path: "./.env.local" });
 
 export default {
   schema: "./src/db/schema/*",
@@ -6,6 +9,8 @@ export default {
   driver: "turso",
   dbCredentials: {
     url: "file:./local.db",
+    // url: process.env.DATABASE_URL!,
+    // authToken: process.env.DATABASE_AUTH_TOKEN!,
   },
   // Print all statements
   verbose: true,
