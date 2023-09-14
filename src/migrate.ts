@@ -1,10 +1,19 @@
 import { migrate } from "drizzle-orm/libsql/migrator";
-import { db } from "@/db";
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client";
+import * as dotenv from "dotenv";
+
+dotenv.config({ path: "./.env.local" });
 
 async function main() {
+  const db = drizzle(createClient({
+    url: process.env.DATABASE_URL!,
+    authToken: process.env.DATABASE_AUTH_TOKEN!,
+  }));
+
   console.log("Running migrations");
 
-  await migrate(db, { migrationsFolder: "./migrations" });
+  await migrate(db, { migrationsFolder: "./src/migrations" });
 
   console.log("Migrated successfully");
 

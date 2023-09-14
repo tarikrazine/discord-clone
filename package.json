@@ -2,6 +2,7 @@
   "name": "discord-clone",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +11,7 @@
     "drizzle:migrations": "drizzle-kit generate:sqlite",
     "drizzle:push": "drizzle-kit push:sqlite",
     "drizzle:studio": "drizzle-kit studio",
-    "migrate": "ts-node ./src/migrate.ts"
+    "migrate": "node --loader ts-node/esm ./src/migrate.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.23.5",
@@ -34,15 +35,14 @@
     "react-dom": "18.2.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
-    "tailwindcss-animate": "^1.0.7",
-    "ts-node": "^10.9.1",
-    "typescript": "5.2.2"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "20.6.0",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
-    "drizzle-kit": "^0.19.13"
-  },
-  "type": "module"
+    "drizzle-kit": "^0.19.13",
+    "ts-node": "^10.9.1",
+    "typescript": "5.2.2"
+  }
 }
