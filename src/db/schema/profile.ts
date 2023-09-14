@@ -14,7 +14,7 @@ export const profile = sqliteTable("profile", {
   name: text("name"),
   imageUrl: text("image_url"),
   email: text("email").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }),
 });
 
