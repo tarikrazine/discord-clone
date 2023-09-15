@@ -20,7 +20,7 @@ export const member = sqliteTable("member", {
     onUpdate: "cascade",
     onDelete: "cascade",
   }),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }),
   updatedAt: integer("updated_at", { mode: "timestamp" }),
 }, (member) => {
   return {

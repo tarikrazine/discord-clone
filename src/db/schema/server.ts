@@ -19,7 +19,7 @@ export const server = sqliteTable(
       onUpdate: "cascade",
       onDelete: "cascade",
     }),
-    createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+    createdAt: integer("created_at", { mode: "timestamp" }),
     updatedAt: integer("updated_at", { mode: "timestamp" }),
   },
   (server) => {
