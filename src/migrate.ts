@@ -6,22 +6,24 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const db = drizzle(createClient({
-    url: process.env.DATABASE_URL!,
-    authToken: process.env.DATABASE_AUTH_TOKEN!,
-  }));
+  try {
+    const db = drizzle(createClient({
+      url: process.env.DATABASE_URL!,
+      authToken: process.env.DATABASE_AUTH_TOKEN!,
+    }));
 
-  console.log("Running migrations");
+    console.log("Running migrations");
 
-  await migrate(db, { migrationsFolder: "./src/migrations" });
+    await migrate(db, { migrationsFolder: "./src/migrations" });
 
-  console.log("Migrated successfully");
+    console.log("Migrated successfully");
 
-  process.exit(0);
+    process.exit(0);
+  } catch (error) {
+    console.error("Migration failed");
+    console.error(error);
+    process.exit(1);
+  }
 }
 
-main().catch((e) => {
-  console.error("Migration failed");
-  console.error(e);
-  process.exit(1);
-});
+main();
