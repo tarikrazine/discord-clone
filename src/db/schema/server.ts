@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
 
@@ -43,3 +43,5 @@ export const membersRelations = relations(server, ({ many }) => ({
 export const channelsRelations = relations(server, ({ many }) => ({
   channels: many(channel),
 }));
+
+export type Server = InferSelectModel<typeof server>;
