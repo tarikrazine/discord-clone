@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1694733927490,
-      "tag": "0000_good_triathlon",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1694800239397,
-      "tag": "0001_brave_king_bedlam",
+      "when": 1694801036643,
+      "tag": "0000_tired_madame_masque",
       "breakpoints": true
     }
   ]

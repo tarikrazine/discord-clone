@@ -3,7 +3,7 @@ CREATE TABLE `channel` (
 	`role` text DEFAULT 'TEXT',
 	`profile_id` integer,
 	`server_id` integer,
-	`created_at` integer NOT NULL,
+	`created_at` integer,
 	`updated_at` integer,
 	FOREIGN KEY (`profile_id`) REFERENCES `profile`(`id`) ON UPDATE cascade ON DELETE cascade,
 	FOREIGN KEY (`server_id`) REFERENCES `server`(`id`) ON UPDATE cascade ON DELETE cascade
@@ -14,7 +14,7 @@ CREATE TABLE `member` (
 	`role` text DEFAULT 'GUEST',
 	`profile_id` integer,
 	`server_id` integer,
-	`created_at` integer NOT NULL,
+	`created_at` integer,
 	`updated_at` integer,
 	FOREIGN KEY (`profile_id`) REFERENCES `profile`(`id`) ON UPDATE cascade ON DELETE cascade,
 	FOREIGN KEY (`server_id`) REFERENCES `server`(`id`) ON UPDATE cascade ON DELETE cascade
@@ -36,7 +36,7 @@ CREATE TABLE `server` (
 	`image_url` text,
 	`invite_code` text NOT NULL,
 	`profile_id` integer,
-	`created_at` integer NOT NULL,
+	`created_at` integer,
 	`updated_at` integer,
 	FOREIGN KEY (`profile_id`) REFERENCES `profile`(`id`) ON UPDATE cascade ON DELETE cascade
 );

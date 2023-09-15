@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "a48bc461-6a9e-4580-bc68-bde23b385166",
-  "prevId": "5762bf89-a070-44ba-be09-df51026e274b",
+  "id": "e25320ee-1d1e-45cb-9dd3-c58b2e139a15",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "channel": {
       "name": "channel",
