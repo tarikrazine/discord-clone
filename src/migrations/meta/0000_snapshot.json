@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "ac0b7076-855c-4556-bf63-d893e26bfb24",
+  "id": "3610ec29-1f96-4b5f-90f6-900abe574056",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "channel": {
@@ -23,13 +23,13 @@
         },
         "profile_id": {
           "name": "profile_id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
         "server_id": {
           "name": "server_id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
@@ -37,25 +37,25 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         }
       },
       "indexes": {
-        "profile_channel_idx": {
-          "name": "profile_channel_idx",
+        "profile_idx": {
+          "name": "profile_idx",
           "columns": [
             "profile_id"
           ],
           "isUnique": false
         },
-        "server_channel_idx": {
-          "name": "server_channel_idx",
+        "server_idx": {
+          "name": "server_idx",
           "columns": [
             "server_id"
           ],
@@ -112,13 +112,13 @@
         },
         "profile_id": {
           "name": "profile_id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
         "server_id": {
           "name": "server_id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
@@ -126,25 +126,25 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         }
       },
       "indexes": {
-        "profile_member_idx": {
-          "name": "profile_member_idx",
+        "profile_idx": {
+          "name": "profile_idx",
           "columns": [
             "profile_id"
           ],
           "isUnique": false
         },
-        "server_member_idx": {
-          "name": "server_member_idx",
+        "server_idx": {
+          "name": "server_idx",
           "columns": [
             "server_id"
           ],
@@ -220,13 +220,13 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         }
       },
       "indexes": {},
@@ -272,7 +272,7 @@
         },
         "profile_id": {
           "name": "profile_id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
@@ -280,18 +280,18 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         }
       },
       "indexes": {
-        "profile_server_idx": {
-          "name": "profile_server_idx",
+        "profile_idx": {
+          "name": "profile_idx",
           "columns": [
             "profile_id"
           ],

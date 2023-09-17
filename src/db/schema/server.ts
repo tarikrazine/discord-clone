@@ -15,7 +15,7 @@ export const server = pgTable(
     name: text("name"),
     imageUrl: text("image_url"),
     inviteCode: text("invite_code").notNull(),
-    profileId: text("profile_id").references(() => profile.id, {
+    profileId: integer("profile_id").references(() => profile.id, {
       onUpdate: "cascade",
       onDelete: "cascade",
     }),
@@ -24,22 +24,16 @@ export const server = pgTable(
   },
   (server) => {
     return {
-      profileIdx: index("profile_server_idx").on(server.profileId),
+      profileIdx: index("profile_idx").on(server.profileId),
     };
   },
 );
 
-export const profileRelations = relations(server, ({ one }) => ({
+export const serverRelations = relations(server, ({ one, many }) => ({
   profile: one(profile, {
     fields: [server.profileId],
     references: [profile.id],
   }),
-}));
-
-export const membersRelations = relations(server, ({ many }) => ({
   members: many(member),
-}));
-
-export const channelsRelations = relations(server, ({ many }) => ({
   channels: many(channel),
 }));

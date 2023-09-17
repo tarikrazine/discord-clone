@@ -6,15 +6,11 @@ import * as serverSchema from "@/db/schema/server";
 import * as memberSchema from "@/db/schema/member";
 import * as channelSchema from "@/db/schema/channel";
 
-console.log("======", process.env.DATABASE_URL);
-
-if (!process.env.DATABASE_URL!) {
-  throw new Error("No database url");
-}
+import { env } from "@/env.mjs";
 
 neonConfig.fetchConnectionCache = true;
 
-const sql = neon(process.env.DATABASE_URL!.toString());
+const sql = neon(env.DATABASE_URL);
 
 export const db = drizzle(sql, {
   schema: {

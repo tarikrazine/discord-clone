@@ -13,19 +13,19 @@ END $$;
 CREATE TABLE IF NOT EXISTS "channel" (
 	"id" text PRIMARY KEY NOT NULL,
 	"type" "type" DEFAULT 'TEXT',
-	"profile_id" text,
-	"server_id" text,
-	"created_at" timestamp with time zone NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL
+	"profile_id" integer,
+	"server_id" integer,
+	"created_at" timestamp with time zone,
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "member" (
 	"id" text PRIMARY KEY NOT NULL,
 	"role" "role" DEFAULT 'GUEST',
-	"profile_id" text,
-	"server_id" text,
-	"created_at" timestamp with time zone NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL
+	"profile_id" integer,
+	"server_id" integer,
+	"created_at" timestamp with time zone,
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "profile" (
@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS "profile" (
 	"name" text,
 	"image_url" text,
 	"email" text NOT NULL,
-	"created_at" timestamp with time zone NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL,
+	"created_at" timestamp with time zone,
+	"updated_at" timestamp with time zone,
 	CONSTRAINT "profile_user_id_unique" UNIQUE("user_id")
 );
 --> statement-breakpoint
@@ -44,16 +44,16 @@ CREATE TABLE IF NOT EXISTS "server" (
 	"name" text,
 	"image_url" text,
 	"invite_code" text NOT NULL,
-	"profile_id" text,
-	"created_at" timestamp with time zone NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL
+	"profile_id" integer,
+	"created_at" timestamp with time zone,
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "profile_channel_idx" ON "channel" ("profile_id");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "server_channel_idx" ON "channel" ("server_id");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "profile_member_idx" ON "member" ("profile_id");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "server_member_idx" ON "member" ("server_id");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "profile_server_idx" ON "server" ("profile_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "profile_idx" ON "channel" ("profile_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "server_idx" ON "channel" ("server_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "profile_idx" ON "member" ("profile_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "server_idx" ON "member" ("server_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "profile_idx" ON "server" ("profile_id");--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "channel" ADD CONSTRAINT "channel_profile_id_profile_id_fk" FOREIGN KEY ("profile_id") REFERENCES "profile"("id") ON DELETE cascade ON UPDATE cascade;
 EXCEPTION

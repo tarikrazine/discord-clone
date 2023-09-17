@@ -18,14 +18,8 @@ export const profile = pgTable("profile", {
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
 });
 
-export const serversRelations = relations(profile, ({ many }) => ({
+export const profileRelations = relations(profile, ({ many }) => ({
   servers: many(server),
-}));
-
-export const membersRelations = relations(profile, ({ many }) => ({
   members: many(member),
-}));
-
-export const channelsRelations = relations(profile, ({ many }) => ({
   channels: many(channel),
 }));

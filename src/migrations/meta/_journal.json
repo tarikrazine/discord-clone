@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1694940945922,
-      "tag": "0000_aberrant_excalibur",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1694942233480,
-      "tag": "0001_round_shaman",
+      "when": 1694981230099,
+      "tag": "0000_fair_otto_octavius",
       "breakpoints": true
     }
   ]

@@ -11,11 +11,11 @@ export const member = pgTable("member", {
     .$defaultFn(() => createId())
     .primaryKey(),
   role: role("role").default("GUEST"),
-  profileId: text("profile_id").references(() => profile.id, {
+  profileId: integer("profile_id").references(() => profile.id, {
     onUpdate: "cascade",
     onDelete: "cascade",
   }),
-  serverId: text("server_id").references(() => server.id, {
+  serverId: integer("server_id").references(() => server.id, {
     onUpdate: "cascade",
     onDelete: "cascade",
   }),
@@ -23,19 +23,16 @@ export const member = pgTable("member", {
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
 }, (member) => {
   return {
-    profileIdx: index("profile_member_idx").on(member.profileId),
-    serverIdx: index("server_member_idx").on(member.serverId),
+    profileIdx: index("profile_idx").on(member.profileId),
+    serverIdx: index("server_idx").on(member.serverId),
   };
 });
 
-export const profileRelations = relations(member, ({ one }) => ({
+export const memberRelations = relations(member, ({ one }) => ({
   profile: one(profile, {
     fields: [member.profileId],
     references: [profile.id],
   }),
-}));
-
-export const serverRelations = relations(member, ({ one }) => ({
   server: one(server, {
     fields: [member.serverId],
     references: [server.id],
