@@ -15,7 +15,7 @@ export const server = pgTable(
     name: text("name"),
     imageUrl: text("image_url"),
     inviteCode: text("invite_code").notNull(),
-    profileId: integer("profile_id").references(() => profile.id, {
+    profileId: text("profile_id").references(() => profile.id, {
       onUpdate: "cascade",
       onDelete: "cascade",
     }),

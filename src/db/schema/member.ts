@@ -11,11 +11,11 @@ export const member = pgTable("member", {
     .$defaultFn(() => createId())
     .primaryKey(),
   role: role("role").default("GUEST"),
-  profileId: integer("profile_id").references(() => profile.id, {
+  profileId: text("profile_id").references(() => profile.id, {
     onUpdate: "cascade",
     onDelete: "cascade",
   }),
-  serverId: integer("server_id").references(() => server.id, {
+  serverId: text("server_id").references(() => server.id, {
     onUpdate: "cascade",
     onDelete: "cascade",
   }),
