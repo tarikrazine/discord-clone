@@ -30,7 +30,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/fileUpload"
 
-export const formValidation = z.object({
+const formValidation = z.object({
   name: z.string().min(1, { message: "Server name is required." }),
   imageUrl: z.string().url({ message: "Server image is required." }),
 });
@@ -92,7 +92,7 @@ function InitialModal() {
                   name="imageUrl"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="imageUrl" className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
                         Upload image
                       </FormLabel>
                       <FormControl>
@@ -108,7 +108,7 @@ function InitialModal() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="name" className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
                       Server name
                     </FormLabel>
                     <FormControl>

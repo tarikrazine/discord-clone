@@ -9,9 +9,13 @@ import { member as memberSchema } from "@/db/schema/member";
 
 import { currentProfile } from "@/lib/currentProfile";
 import { randomShortString } from "@/lib/randomShortString";
-import { formValidation } from "@/components/modals/initialModal";
 
 export const runtime = "edge";
+
+const formValidation = z.object({
+  name: z.string().min(1, { message: "Server name is required." }),
+  imageUrl: z.string().url({ message: "Server image is required." }),
+});
 
 export async function POST(request: Request) {
   try {
@@ -23,10 +27,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 400 });
     }
 
+    console.log(data);
+
     const parsedData = formValidation.parse(data);
 
-    const newServer = await db.transaction(async () => {
-      const [server] = await db.insert(serverSchema).values({
+    const newServer = await db.transaction(async (tx) => {
+      const [server] = await tx.insert(serverSchema).values({
         profileId: profile.id,
         name: parsedData.name,
         imageUrl: parsedData.imageUrl,
@@ -34,14 +40,14 @@ export async function POST(request: Request) {
         createdAt: new Date(),
       }).returning();
 
-      await db.insert(channelSchema).values({
+      await tx.insert(channelSchema).values({
         name: "general",
         profileId: profile.id,
         serverId: server.id,
         createdAt: new Date(),
       });
 
-      await db.insert(memberSchema).values({
+      await tx.insert(memberSchema).values({
         profileId: profile.id,
         serverId: server.id,
         role: "ADMIN",

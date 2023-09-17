@@ -1,5 +1,8 @@
-import { neon, neonConfig } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
+// import { neon, neonConfig } from "@neondatabase/serverless";
+// import { drizzle } from "drizzle-orm/neon-http";
+
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 
 import * as profileSchema from "@/db/schema/profile";
 import * as serverSchema from "@/db/schema/server";
@@ -8,11 +11,11 @@ import * as channelSchema from "@/db/schema/channel";
 
 import { env } from "@/env.mjs";
 
-neonConfig.fetchConnectionCache = true;
+// neonConfig.fetchConnectionCache = true;
 
-const sql = neon(env.DATABASE_URL);
+const client = postgres(env.DATABASE_URL);
 
-export const db = drizzle(sql, {
+export const db = drizzle(client, {
   schema: {
     ...profileSchema,
     ...serverSchema,
