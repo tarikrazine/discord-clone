@@ -92,7 +92,7 @@ function InitialModal() {
                   name="imageUrl"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                      <FormLabel htmlFor="imageUrl" className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
                         Upload image
                       </FormLabel>
                       <FormControl>
@@ -108,7 +108,7 @@ function InitialModal() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                    <FormLabel htmlFor="name" className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
                       Server name
                     </FormLabel>
                     <FormControl>
