@@ -19,10 +19,8 @@ export const server = pgTable(
       onUpdate: "cascade",
       onDelete: "cascade",
     }),
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
-      .notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
   },
   (server) => {
     return {
@@ -45,5 +43,3 @@ export const membersRelations = relations(server, ({ many }) => ({
 export const channelsRelations = relations(server, ({ many }) => ({
   channels: many(channel),
 }));
-
-export type Server = InferSelectModel<typeof server>;

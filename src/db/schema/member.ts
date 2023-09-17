@@ -19,10 +19,8 @@ export const member = pgTable("member", {
     onUpdate: "cascade",
     onDelete: "cascade",
   }),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
-    .notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
 }, (member) => {
   return {
     profileIdx: index("profile_member_idx").on(member.profileId),

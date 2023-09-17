@@ -19,10 +19,8 @@ export const channel = pgTable("channel", {
     onUpdate: "cascade",
     onDelete: "cascade",
   }),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
-    .notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
 }, (channel) => {
   return {
     profileIdx: index("profile_channel_idx").on(channel.profileId),

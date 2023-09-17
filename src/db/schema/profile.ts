@@ -14,10 +14,8 @@ export const profile = pgTable("profile", {
   name: text("name"),
   imageUrl: text("image_url"),
   email: text("email").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
-    .notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
 });
 
 export const serversRelations = relations(profile, ({ many }) => ({
