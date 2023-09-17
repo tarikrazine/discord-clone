@@ -30,7 +30,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/fileUpload"
 
-import { formValidation } from "@/app/api/servers/route";
+export const formValidation = z.object({
+  name: z.string().min(1, { message: "Server name is required." }),
+  imageUrl: z.string().url({ message: "Server image is required." }),
+});
 
 function InitialModal() {
   const [isMounted, setIsMounted] = useState(false);

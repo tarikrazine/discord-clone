@@ -9,13 +9,9 @@ import { member as memberSchema } from "@/db/schema/member";
 
 import { currentProfile } from "@/lib/currentProfile";
 import { randomShortString } from "@/lib/randomShortString";
+import { formValidation } from "@/components/modals/initialModal";
 
 export const runtime = "edge";
-
-export const formValidation = z.object({
-  name: z.string().min(1, { message: "Server name is required." }),
-  imageUrl: z.string().url({ message: "Server image is required." }),
-});
 
 export async function POST(request: Request) {
   try {
