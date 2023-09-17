@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "3610ec29-1f96-4b5f-90f6-900abe574056",
+  "id": "21c95a9c-00a0-4905-989e-1cbc48ba3add",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "channel": {
@@ -14,6 +14,12 @@
           "primaryKey": true,
           "notNull": true
         },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "type": {
           "name": "type",
           "type": "type",
@@ -23,13 +29,13 @@
         },
         "profile_id": {
           "name": "profile_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
         "server_id": {
           "name": "server_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -47,15 +53,15 @@
         }
       },
       "indexes": {
-        "profile_idx": {
-          "name": "profile_idx",
+        "profile_channel_idx": {
+          "name": "profile_channel_idx",
           "columns": [
             "profile_id"
           ],
           "isUnique": false
         },
-        "server_idx": {
-          "name": "server_idx",
+        "server_channel_idx": {
+          "name": "server_channel_idx",
           "columns": [
             "server_id"
           ],
@@ -112,13 +118,13 @@
         },
         "profile_id": {
           "name": "profile_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
         "server_id": {
           "name": "server_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -136,15 +142,15 @@
         }
       },
       "indexes": {
-        "profile_idx": {
-          "name": "profile_idx",
+        "profile_member_idx": {
+          "name": "profile_member_idx",
           "columns": [
             "profile_id"
           ],
           "isUnique": false
         },
-        "server_idx": {
-          "name": "server_idx",
+        "server_member_idx": {
+          "name": "server_member_idx",
           "columns": [
             "server_id"
           ],
@@ -272,7 +278,7 @@
         },
         "profile_id": {
           "name": "profile_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -290,8 +296,8 @@
         }
       },
       "indexes": {
-        "profile_idx": {
-          "name": "profile_idx",
+        "profile_server_idx": {
+          "name": "profile_server_idx",
           "columns": [
             "profile_id"
           ],
