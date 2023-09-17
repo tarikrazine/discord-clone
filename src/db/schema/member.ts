@@ -1,27 +1,28 @@
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
 
 import { profile } from "./profile";
 import { relations } from "drizzle-orm";
 import { server } from "./server";
+import { role } from "./roleMember";
 
-export const member = sqliteTable("member", {
+export const member = pgTable("member", {
   id: text("id")
     .$defaultFn(() => createId())
     .primaryKey(),
-  role: text("role", { enum: ["ADMIN", "MODERATOR", "GUEST"] }).default(
-    "GUEST",
-  ),
-  profileId: integer("profile_id").references(() => profile.id, {
+  role: role("role").default("GUEST"),
+  profileId: text("profile_id").references(() => profile.id, {
     onUpdate: "cascade",
     onDelete: "cascade",
   }),
-  serverId: integer("server_id").references(() => server.id, {
+  serverId: text("server_id").references(() => server.id, {
     onUpdate: "cascade",
     onDelete: "cascade",
   }),
-  createdAt: integer("created_at", { mode: "timestamp" }),
-  updatedAt: integer("updated_at", { mode: "timestamp" }),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
+    .notNull(),
 }, (member) => {
   return {
     profileIdx: index("profile_member_idx").on(member.profileId),

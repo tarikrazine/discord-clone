@@ -1,12 +1,12 @@
 import { InferSelectModel, relations } from "drizzle-orm";
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
 
 import { profile } from "./profile";
 import { member } from "./member";
 import { channel } from "./channel";
 
-export const server = sqliteTable(
+export const server = pgTable(
   "server",
   {
     id: text("id")
@@ -15,12 +15,14 @@ export const server = sqliteTable(
     name: text("name"),
     imageUrl: text("image_url"),
     inviteCode: text("invite_code").notNull(),
-    profileId: integer("profile_id").references(() => profile.id, {
+    profileId: text("profile_id").references(() => profile.id, {
       onUpdate: "cascade",
       onDelete: "cascade",
     }),
-    createdAt: integer("created_at", { mode: "timestamp" }),
-    updatedAt: integer("updated_at", { mode: "timestamp" }),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
+      .notNull(),
   },
   (server) => {
     return {

@@ -19,13 +19,13 @@ export async function initialProfile() {
     return profileExists;
   }
 
-  const newProfile = await db.insert(profile).values({
+  const [newProfile] = await db.insert(profile).values({
     userId: user.id,
     name: `${user.firstName} ${user.lastName}`,
     email: user.emailAddresses[0].emailAddress,
     imageUrl: user.hasImage ? user.imageUrl : null,
     createdAt: new Date(),
-  });
+  }).returning();
 
   return newProfile;
 }

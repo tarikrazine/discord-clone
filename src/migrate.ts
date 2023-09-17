@@ -1,16 +1,17 @@
-import { migrate } from "drizzle-orm/libsql/migrator";
-import { drizzle } from "drizzle-orm/libsql";
-import { createClient } from "@libsql/client";
+import { migrate } from "drizzle-orm/neon-http/migrator";
+import { neon, neonConfig } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 async function main() {
   try {
-    const db = drizzle(createClient({
-      url: process.env.DATABASE_URL!,
-      authToken: process.env.DATABASE_AUTH_TOKEN!,
-    }));
+    neonConfig.fetchConnectionCache = true;
+
+    const sql = neon(process.env.DATABASE_URL!);
+
+    const db = drizzle(sql);
 
     console.log("Running migrations");
 

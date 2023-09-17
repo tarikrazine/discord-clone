@@ -6,11 +6,9 @@ config({ path: "./.env.local" });
 export default {
   schema: "./src/db/schema/*",
   out: "./src/migrations",
-  driver: "turso",
+  driver: "pg",
   dbCredentials: {
-    url: "file:./local.db",
-    // url: process.env.DATABASE_URL!,
-    // authToken: process.env.DATABASE_AUTH_TOKEN!,
+    connectionString: process.env.DATABASE_URL!,
   },
   // Print all statements
   verbose: true,

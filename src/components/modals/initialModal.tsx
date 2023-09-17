@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 
+import { useRouter } from "next/navigation";
+
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { UploadButton } from "@/lib/uploadThing";
+import axios from "axios";
 
 import {
   Dialog,
@@ -29,13 +30,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/fileUpload"
 
-const formValidation = z.object({
-  name: z.string().min(1, { message: "Server name is required." }),
-  imageUrl: z.string().url({ message: "Server image is required." }),
-});
+import { formValidation } from "@/app/api/servers/route";
 
 function InitialModal() {
   const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter()
 
   useEffect(() => {
     setIsMounted(true);
@@ -51,8 +50,17 @@ function InitialModal() {
 
   const isLoading = form.formState.isSubmitting;
 
-  function onSubmit(form: z.infer<typeof formValidation>) {
-    console.log(form);
+  async function onSubmit(values: z.infer<typeof formValidation>) {
+    try {
+      await axios.post("/api/servers", values)
+
+      form.reset()
+      router.refresh()
+      window.location.reload()
+      
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   if (!isMounted) {

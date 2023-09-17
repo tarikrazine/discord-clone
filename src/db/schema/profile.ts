@@ -1,12 +1,12 @@
 import { relations } from "drizzle-orm";
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
 
 import { server } from "./server";
 import { member } from "./member";
 import { channel } from "./channel";
 
-export const profile = sqliteTable("profile", {
+export const profile = pgTable("profile", {
   id: text("id")
     .$defaultFn(() => createId())
     .primaryKey(),
@@ -14,8 +14,10 @@ export const profile = sqliteTable("profile", {
   name: text("name"),
   imageUrl: text("image_url"),
   email: text("email").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }),
-  updatedAt: integer("updated_at", { mode: "timestamp" }),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
+    .notNull(),
 });
 
 export const serversRelations = relations(profile, ({ many }) => ({
