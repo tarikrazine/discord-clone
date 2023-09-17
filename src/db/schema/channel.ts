@@ -10,12 +10,13 @@ export const channel = pgTable("channel", {
   id: text("id")
     .$defaultFn(() => createId())
     .primaryKey(),
+  name: text("name").notNull(),
   type: type("type").default("TEXT"),
-  profileId: integer("profile_id").references(() => profile.id, {
+  profileId: text("profile_id").references(() => profile.id, {
     onUpdate: "cascade",
     onDelete: "cascade",
   }),
-  serverId: integer("server_id").references(() => server.id, {
+  serverId: text("server_id").references(() => server.id, {
     onUpdate: "cascade",
     onDelete: "cascade",
   }),

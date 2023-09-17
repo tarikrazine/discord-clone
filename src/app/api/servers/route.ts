@@ -29,31 +29,31 @@ export async function POST(request: Request) {
 
     const parsedData = formValidation.parse(data);
 
-    // const newServer = await db.transaction(async () => {
-    //   const [server] = await db.insert(serverSchema).values({
-    //     profileId: profile.id,
-    //     name: parsedData.name,
-    //     imageUrl: parsedData.imageUrl,
-    //     inviteCode: randomShortString(),
-    //     createdAt: new Date(),
-    //   }).returning();
+    const newServer = await db.transaction(async () => {
+      const [server] = await db.insert(serverSchema).values({
+        profileId: profile.id,
+        name: parsedData.name,
+        imageUrl: parsedData.imageUrl,
+        inviteCode: randomShortString(),
+        createdAt: new Date(),
+      }).returning();
 
-    //   await db.insert(channelSchema).values({
-    //     profileId: profile.id,
-    //     serverId: server.id,
-    //     name: "general",
-    //     createdAt: new Date(),
-    //   });
+      await db.insert(channelSchema).values({
+        name: "general",
+        profileId: profile.id,
+        serverId: server.id,
+        createdAt: new Date(),
+      });
 
-    //   const member = await db.insert(memberSchema).values({
-    //     profileId: profile.id,
-    //     serverId: server.id,
-    //     role: "ADMIN",
-    //     createdAt: new Date(),
-    //   });
-    // });
+      await db.insert(memberSchema).values({
+        profileId: profile.id,
+        serverId: server.id,
+        role: "ADMIN",
+        createdAt: new Date(),
+      });
+    });
 
-    // console.log(newServer);
+    console.log(newServer);
 
     return NextResponse.json({ message: "Server added with success" }, {
       status: 200,
