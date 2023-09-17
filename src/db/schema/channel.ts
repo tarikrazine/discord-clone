@@ -24,8 +24,8 @@ export const channel = pgTable("channel", {
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
 }, (channel) => {
   return {
-    profileIdx: index("profile_idx").on(channel.profileId),
-    serverIdx: index("server_idx").on(channel.serverId),
+    profileIdx: index("profile_channel_idx").on(channel.profileId),
+    serverIdx: index("server_channel_idx").on(channel.serverId),
   };
 });
 

@@ -23,8 +23,8 @@ export const member = pgTable("member", {
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
 }, (member) => {
   return {
-    profileIdx: index("profile_idx").on(member.profileId),
-    serverIdx: index("server_idx").on(member.serverId),
+    profileIdx: index("profile_member_idx").on(member.profileId),
+    serverIdx: index("server_member_idx").on(member.serverId),
   };
 });
 
