@@ -12,12 +12,18 @@ export default async function SetupPage() {
 
     const profile = await initialProfile()
 
-    const [serverResponse] = await db.select().from(serverSchema).leftJoin(memberSchema, eq(memberSchema.profileId, profile.id)).limit(1)
+    const serverResponse = await db.query.server.findFirst({
+        with: {
+         members: {
+          where: eq(memberSchema.profileId, profile.id)
+         } 
+        }
+      })
     
     console.log("Server response", serverResponse)
     
     if (serverResponse) {
-        return redirect(`/server/${serverResponse?.server.id}`)
+        return redirect(`/servers/${serverResponse?.id}`)
     }
     
     return (

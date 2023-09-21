@@ -25,8 +25,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 400 });
     }
 
-    console.log(data);
-
     const parsedData = formValidation.parse(data);
 
     const newServer = await db.transaction(async (tx) => {

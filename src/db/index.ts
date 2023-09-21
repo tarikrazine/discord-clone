@@ -1,6 +1,3 @@
-// import { neon, neonConfig } from "@neondatabase/serverless";
-// import { drizzle } from "drizzle-orm/neon-http";
-
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
@@ -10,8 +7,6 @@ import * as memberSchema from "@/db/schema/member";
 import * as channelSchema from "@/db/schema/channel";
 
 import { env } from "@/env.mjs";
-
-// neonConfig.fetchConnectionCache = true;
 
 const client = postgres(env.DATABASE_URL);
 
