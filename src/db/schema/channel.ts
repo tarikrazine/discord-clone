@@ -1,3 +1,4 @@
+import { InferSelectModel } from "drizzle-orm";
 import { index, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
 
@@ -28,6 +29,8 @@ export const channel = pgTable("channel", {
     serverIdx: index("server_channel_idx").on(channel.serverId),
   };
 });
+
+export type ChannelType = typeof channel.$inferSelect;
 
 export const channelRelations = relations(channel, ({ one }) => ({
   profile: one(profile, {

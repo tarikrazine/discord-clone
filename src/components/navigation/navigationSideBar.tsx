@@ -36,8 +36,6 @@ async function NavigationSideBar() {
     .leftJoin(memberSchema, sql`${memberSchema.profileId} = ${profile.id}`)
     .groupBy(serverSchema.id);
 
-  console.log(servers, "profile id : ", profile.id);
-
   if (!servers) {
     redirect("/");
   }

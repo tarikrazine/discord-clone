@@ -28,6 +28,8 @@ export const member = pgTable("member", {
   };
 });
 
+export type MemberType = typeof member.$inferSelect;
+
 export const memberRelations = relations(member, ({ one }) => ({
   profile: one(profile, {
     fields: [member.profileId],

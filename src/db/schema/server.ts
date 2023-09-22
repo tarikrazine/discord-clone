@@ -29,6 +29,8 @@ export const server = pgTable(
   },
 );
 
+export type ServerType = typeof server._.inferSelect;
+
 export const serverRelations = relations(server, ({ one, many }) => ({
   profile: one(profile, {
     fields: [server.profileId],

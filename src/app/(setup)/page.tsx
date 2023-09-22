@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { eq } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 
 import { db } from "@/db";
 import { initialProfile } from "@/lib/initialprofile";
@@ -13,11 +13,10 @@ export default async function SetupPage() {
 
   const [serverResponse] = await db
     .select()
-    .from(serverSchema).where(eq(serverSchema.profileId, profile.id))
-    .leftJoin(memberSchema, eq(memberSchema.profileId, profile.id))
+    .from(serverSchema)
+    .where(sql`${serverSchema.profileId} = ${profile.id}`)
+    .leftJoin(memberSchema, sql`${memberSchema.profileId} = ${profile.id}`)
     .limit(1);
-
-  console.log("Server response", serverResponse);
 
   if (serverResponse) {
     return redirect(`/servers/${serverResponse?.member?.serverId}`);
