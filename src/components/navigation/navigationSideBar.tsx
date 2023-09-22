@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 
-import { eq } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member } from "@/db/schema/member";
-import { server } from "@/db/schema/server";
+import { member as memberSchema } from "@/db/schema/member";
+import { server as serverSchema } from "@/db/schema/server";
 
 import { currentProfile } from "@/lib/currentProfile";
 
@@ -22,13 +22,25 @@ async function NavigationSideBar() {
     redirect("/");
   }
 
-  const servers = await db.query.server.findMany({
-    with: {
-     members: {
-      where: eq(member.profileId, profile.id)
-     } 
-    }
-  })
+  const servers = await db
+    .select({
+      id: serverSchema.id,
+      name: serverSchema.name,
+      imageUrl: serverSchema.imageUrl,
+      inviteCode: serverSchema.inviteCode,
+      profileId: serverSchema.profileId,
+    })
+    .from(serverSchema)
+    .where(sql`${serverSchema.profileId} = ${profile.id}`)
+    .groupBy(desc(serverSchema.createdAt))
+    .leftJoin(memberSchema, sql`${memberSchema.profileId} = ${profile.id}`)
+    .groupBy(serverSchema.id);
+
+  console.log(servers, "profile id : ", profile.id);
+
+  if (!servers) {
+    redirect("/");
+  }
 
   return (
     <div className="flex flex-col items-center h-full w-full space-y-4 text-primary dark:bg-[#1E1F22] py-3">
@@ -37,11 +49,11 @@ async function NavigationSideBar() {
       <ScrollArea className="flex-1 w-full">
         {servers.map((server) => {
           return (
-            <div key={server?.id} className="mb-4">
+            <div key={server.id} className="mb-4">
               <NavigationItem
-                id={server?.id}
-                name={server?.name!}
-                imageUrl={server?.imageUrl!}
+                id={server.id}
+                name={server.name!}
+                imageUrl={server.imageUrl!}
               />
             </div>
           );
