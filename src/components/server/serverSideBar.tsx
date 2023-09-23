@@ -52,7 +52,7 @@ async function ServerSideBar(props: ServerSideBarProps) {
 
   const role = server.members.find(member => member.profileId === profile.id)?.role;
 
-  return <div className="flex flex-col h-full w-full text-primary bg-[#F2F3F5] dark:bg-[#2B2D31]"><ServerHeader server={server} role={role!} /></div>;
+  return <div className="flex flex-col h-full w-full text-primary bg-[#F2F3F5] dark:bg-[#2B2D31]"><ServerHeader server={server} role={role} /></div>;
 }
 
 export default ServerSideBar;
