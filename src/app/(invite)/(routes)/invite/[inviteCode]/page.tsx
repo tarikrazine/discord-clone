@@ -33,6 +33,17 @@ async function InviteCodePage({ params }: { params: { inviteCode: string } }) {
     return redirect(`/servers/${existingServer.id}`)
   }
 
+  const server = await db.transaction(async (tx) => {
+    const [server] = await tx.update(serverSchema).set({
+      updatedAt: new Date(),
+    }).where(eq(serverSchema.inviteCode, params.inviteCode)).returning()
+
+    await tx.insert(memberSchema).values({
+      profileId: profile.id,
+      serverId: server.id,
+      createdAt: new Date(),
+    });
+  })
 
   return <div>{params.inviteCode}</div>;
 }

@@ -24,6 +24,7 @@ export async function PATCH(
 
     const [server] = await db.update(serverSchema).set({
       inviteCode: randomShortString(),
+      updatedAt: new Date(),
     }).where(sql`${serverSchema.profileId} = ${profile
       ?.id!} AND ${serverSchema.id} = ${serverId}`).returning();
 
