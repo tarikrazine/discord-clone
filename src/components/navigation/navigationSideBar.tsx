@@ -22,19 +22,14 @@ async function NavigationSideBar() {
     redirect("/");
   }
 
-  const servers = await db
-    .select({
-      id: serverSchema.id,
-      name: serverSchema.name,
-      imageUrl: serverSchema.imageUrl,
-      inviteCode: serverSchema.inviteCode,
-      profileId: serverSchema.profileId,
-    })
-    .from(serverSchema)
-    .where(sql`${serverSchema.profileId} = ${profile.id}`)
-    .groupBy(desc(serverSchema.createdAt))
-    .leftJoin(memberSchema, sql`${memberSchema.profileId} = ${profile.id}`)
-    .groupBy(serverSchema.id);
+  const servers = await db.query.member.findMany({
+    where: sql`${memberSchema.profileId} = ${profile.id}`,
+    with: {
+      server: true
+    }
+  })
+
+  console.log(servers)
 
   if (!servers) {
     redirect("/");
@@ -45,7 +40,10 @@ async function NavigationSideBar() {
       <NavigationAction />
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
       <ScrollArea className="flex-1 w-full">
-        {servers.map((server) => {
+        {servers.map(({server}) => {
+          if (!server) {
+            return null
+          }
           return (
             <div key={server.id} className="mb-4">
               <NavigationItem

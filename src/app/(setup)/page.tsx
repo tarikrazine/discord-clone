@@ -1,25 +1,25 @@
 import { redirect } from "next/navigation";
 
-import { desc, eq, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
+
+import { initialProfile } from "@/lib/initialprofile";
 
 import { db } from "@/db";
-import { initialProfile } from "@/lib/initialprofile";
-import { server as serverSchema } from "@/db/schema/server";
 import { member as memberSchema } from "@/db/schema/member";
+
 import InitialModal from "@/components/modals/initialModal";
 
 export default async function SetupPage() {
   const profile = await initialProfile();
 
-  const [serverResponse] = await db
-    .select()
-    .from(serverSchema)
-    .where(sql`${serverSchema.profileId} = ${profile.id}`)
-    .leftJoin(memberSchema, sql`${memberSchema.profileId} = ${profile.id}`)
-    .limit(1);
+    const server = await db.query.member.findFirst({
+      where: sql`${memberSchema.profileId} = ${profile.id}`,
+      with: {
+        server: true
+      }})
 
-  if (serverResponse) {
-    return redirect(`/servers/${serverResponse?.member?.serverId}`);
+  if (server?.server) {
+    return redirect(`/servers/${server?.server.id}`);
   }
 
   return <InitialModal />;

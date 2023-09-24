@@ -43,9 +43,15 @@ async function InviteCodePage({ params }: { params: { inviteCode: string } }) {
       serverId: server.id,
       createdAt: new Date(),
     });
+
+    return server
   })
 
-  return <div>{params.inviteCode}</div>;
+  if (server) {
+    return  redirect(`/servers/${server.id}`)
+  }
+
+  return null;
 }
 
 export default InviteCodePage;

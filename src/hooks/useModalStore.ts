@@ -4,7 +4,7 @@ import { ChannelType } from "@/db/schema/channel";
 import { MemberType } from "@/db/schema/member";
 import { ServerType } from "@/db/schema/server";
 
-export type ModalType = "CREATE_SERVER" | "INVITE";
+export type ModalType = "CREATE_SERVER" | "INVITE" | "EDIT_SERVER";
 
 type Server = ServerType & {
   members: MemberType[];
