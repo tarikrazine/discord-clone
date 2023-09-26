@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "21c95a9c-00a0-4905-989e-1cbc48ba3add",
+  "id": "8611e107-6ee8-4b90-8ac6-5f0dd73ac3db",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "channel": {
@@ -53,15 +53,15 @@
         }
       },
       "indexes": {
-        "profile_channel_idx": {
-          "name": "profile_channel_idx",
+        "profile_idx": {
+          "name": "profile_idx",
           "columns": [
             "profile_id"
           ],
           "isUnique": false
         },
-        "server_channel_idx": {
-          "name": "server_channel_idx",
+        "server_idx": {
+          "name": "server_idx",
           "columns": [
             "server_id"
           ],
@@ -142,15 +142,15 @@
         }
       },
       "indexes": {
-        "profile_member_idx": {
-          "name": "profile_member_idx",
+        "profile_idx": {
+          "name": "profile_idx",
           "columns": [
             "profile_id"
           ],
           "isUnique": false
         },
-        "server_member_idx": {
-          "name": "server_member_idx",
+        "server_idx": {
+          "name": "server_idx",
           "columns": [
             "server_id"
           ],
@@ -296,8 +296,8 @@
         }
       },
       "indexes": {
-        "profile_server_idx": {
-          "name": "profile_server_idx",
+        "profile_idx": {
+          "name": "profile_idx",
           "columns": [
             "profile_id"
           ],
@@ -320,7 +320,15 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "server_invite_code_unique": {
+          "name": "server_invite_code_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "invite_code"
+          ]
+        }
+      }
     }
   },
   "enums": {
