@@ -24,7 +24,7 @@ export const server = pgTable(
   },
   (server) => {
     return {
-      profileIdx: index("profile_server_idx").on(server.profileId),
+      profileIdx: index("profile_idx").on(server.profileId),
     };
   },
 );

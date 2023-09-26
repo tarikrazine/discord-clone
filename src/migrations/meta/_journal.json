@@ -15,6 +15,13 @@
       "when": 1695569840429,
       "tag": "0001_tidy_invaders",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1695755307561,
+      "tag": "0002_flowery_rick_jones",
+      "breakpoints": true
     }
   ]
 }

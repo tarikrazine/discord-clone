@@ -1,5 +1,4 @@
-import { InferSelectModel } from "drizzle-orm";
-import { index, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
 
 import { profile } from "./profile";
@@ -25,8 +24,8 @@ export const channel = pgTable("channel", {
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
 }, (channel) => {
   return {
-    profileIdx: index("profile_channel_idx").on(channel.profileId),
-    serverIdx: index("server_channel_idx").on(channel.serverId),
+    profileIdx: index("profile_idx").on(channel.profileId),
+    serverIdx: index("server_idx").on(channel.serverId),
   };
 });
 
