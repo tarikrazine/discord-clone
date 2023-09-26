@@ -1,5 +1,5 @@
-// import { drizzle } from "drizzle-orm/postgres-js";
-// import postgres from "postgres";
+import { Client } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-serverless";
 
 import * as profileSchema from "@/db/schema/profile";
 import * as serverSchema from "@/db/schema/server";
@@ -7,9 +7,6 @@ import * as memberSchema from "@/db/schema/member";
 import * as channelSchema from "@/db/schema/channel";
 
 import { env } from "@/env.mjs";
-
-import { Client } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-serverless";
 
 const client = new Client(env.DATABASE_URL);
 

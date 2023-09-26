@@ -4,6 +4,8 @@ import { ourFileRouter } from "./core";
 
 import { env } from "@/env.mjs";
 
+export const runtime = "edge";
+
 // Export routes for Next App Router
 export const { GET, POST } = createNextRouteHandler({
   router: ourFileRouter,

@@ -1,9 +1,14 @@
+import { NextResponse } from "next/server";
+
+import { sql } from "drizzle-orm";
+
 import { db } from "@/db";
 import { server as serverSchema } from "@/db/schema/server";
+
 import { currentProfile } from "@/lib/currentProfile";
 import { randomShortString } from "@/lib/randomShortString";
-import { eq, sql } from "drizzle-orm";
-import { NextResponse } from "next/server";
+
+export const runtime = "edge";
 
 export async function PATCH(
   request: Request,

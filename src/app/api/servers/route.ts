@@ -9,7 +9,8 @@ import { member as memberSchema } from "@/db/schema/member";
 
 import { currentProfile } from "@/lib/currentProfile";
 import { randomShortString } from "@/lib/randomShortString";
-import { eq } from "drizzle-orm";
+
+export const runtime = "edge";
 
 const formValidation = z.object({
   name: z.string().min(1, { message: "Server name is required." }),
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
 
     const parsedData = formValidation.parse(data);
 
-    const newServer = await db.transaction(async (tx) => {
+    await db.transaction(async (tx) => {
       const [server] = await tx.insert(serverSchema).values({
         profileId: profile.id,
         name: parsedData.name,
@@ -51,8 +52,6 @@ export async function POST(request: Request) {
         createdAt: new Date(),
       });
     });
-
-    console.log(newServer);
 
     return NextResponse.json({ message: "Server added with success" }, {
       status: 200,
