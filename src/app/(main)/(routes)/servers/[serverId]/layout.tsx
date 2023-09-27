@@ -23,14 +23,17 @@ export default async function ServerIdLayout({
     return redirectToSignIn();
   }
 
+
   const server = await db.query.server.findFirst({
-    where: eq(serverSchema.id, params.serverId),
+    where: sql`${serverSchema.id} = ${params.serverId}`,
     with: {
       members: {
-        where: eq(memberSchema.profileId, profile.id),
-      },
-    },
-  });
+        where: sql`${memberSchema.profileId} = ${profile.id}`
+      }
+    }
+  })
+
+  console.log(server)
 
   if (!server?.members[0]) {
     return redirect("/");

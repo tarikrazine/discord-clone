@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { desc, eq, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 
 import { db } from "@/db";
 import { member as memberSchema } from "@/db/schema/member";
@@ -29,9 +29,7 @@ async function NavigationSideBar() {
     }
   })
 
-  console.log(servers)
-
-  if (!servers) {
+  if (!servers[0].server) {
     redirect("/");
   }
 
