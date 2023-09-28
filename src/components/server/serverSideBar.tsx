@@ -6,7 +6,6 @@ import { currentProfile } from "@/lib/currentProfile";
 
 import { db } from "@/db";
 import { server as serverSchema } from "@/db/schema/server";
-import { ChannelType } from "@/db/schema/channel";
 import ServerHeader from "./serverHeader";
 
 interface ServerSideBarProps {
@@ -28,6 +27,9 @@ async function ServerSideBar(props: ServerSideBarProps) {
       },
       members: {
         orderBy: (members, { asc }) => asc(members.role),
+        with: {
+          profile: true
+        }
       },
     },
   });

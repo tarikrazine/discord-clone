@@ -18,6 +18,8 @@ export const profile = pgTable("profile", {
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
 });
 
+export type ProfileType = typeof profile.$inferSelect;
+
 export const profileRelations = relations(profile, ({ many }) => ({
   servers: many(server),
   members: many(member),

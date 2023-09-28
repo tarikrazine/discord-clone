@@ -68,7 +68,7 @@ function ServerHeader(props: ServerHeaderProps) {
           </DropdownMenuItem>
         ) : null}
         {isAdmin ? (
-          <DropdownMenuItem className="px-3 py-2 cursor-pointer text-sm">
+          <DropdownMenuItem className="px-3 py-2 cursor-pointer text-sm" onClick={() => onOpen("MEMBERS", { server: props.server })}>
             Manage members
             <User className="w-4 h-4 ml-auto" />
           </DropdownMenuItem>

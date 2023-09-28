@@ -33,8 +33,6 @@ export default async function ServerIdLayout({
     }
   })
 
-  console.log(server)
-
   if (!server?.members[0]) {
     return redirect("/");
   }
