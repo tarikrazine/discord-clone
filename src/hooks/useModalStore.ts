@@ -3,13 +3,8 @@ import { create } from "zustand";
 import { ChannelType } from "@/db/schema/channel";
 import { MemberType } from "@/db/schema/member";
 import { ServerType } from "@/db/schema/server";
-import { ProfileType } from "@/db/schema/profile";
 
 export type ModalType = "CREATE_SERVER" | "INVITE" | "EDIT_SERVER" | "MEMBERS";
-
-type Profile = {
-  profile: ProfileType;
-};
 
 type Server = ServerType & {
   members: MemberType[];

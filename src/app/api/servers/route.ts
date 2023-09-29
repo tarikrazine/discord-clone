@@ -150,7 +150,7 @@ export async function PATCH(request: Request) {
     }
     console.log("[SERVER_PATCH]", error);
     return NextResponse.json(
-      { message: "Something went wrong." },
+      { message: "Internal Error" },
       {
         status: 500,
       },
