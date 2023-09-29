@@ -58,6 +58,28 @@ function MembersModal() {
 
   const isModalOpen = isOpen && type === "MEMBERS";
 
+  async function onKick(memberId: string) {
+    try {
+      setIsLoadingId(memberId);
+
+      const url = qs.stringifyUrl({
+        url: `/api/members/${memberId}`,
+        query: {
+          serverId: data.server?.id
+        },
+      });
+      
+      const response = await axios.delete(url);
+
+      router.refresh();
+      onOpen("MEMBERS", { server: response.data?.server });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingId("");
+    }
+  }
+
   async function onRoleChange(memberId: string, role: MemberType["role"]) {
     try {
       setIsLoadingId(memberId);
@@ -144,7 +166,7 @@ function MembersModal() {
                           </DropdownMenuPortal>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onKick(member.id)}>
                           <Gavel className="h-4 w-4 mr-2" />
                           Kick
                         </DropdownMenuItem>
