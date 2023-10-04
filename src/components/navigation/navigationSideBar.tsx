@@ -32,7 +32,7 @@ async function NavigationSideBar() {
   if (!servers[0].server) {
     redirect("/");
   }
-
+  
   return (
     <div className="flex flex-col items-center h-full w-full space-y-4 text-primary dark:bg-[#1E1F22] py-3">
       <NavigationAction />

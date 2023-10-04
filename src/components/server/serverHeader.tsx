@@ -74,7 +74,7 @@ function ServerHeader(props: ServerHeaderProps) {
           </DropdownMenuItem>
         ) : null}
         {isModerator ? (
-          <DropdownMenuItem className="px-3 py-2 cursor-pointer text-sm">
+          <DropdownMenuItem className="px-3 py-2 cursor-pointer text-sm" onClick={() => onOpen("CREATE_CHANNEL")}>
             Create channel
             <PlusCircle className="w-4 h-4 ml-auto" />
           </DropdownMenuItem>

@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 
-import { eq, ne, not, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 
 import { db } from "@/db";
 import { member as memberSchema, MemberType } from "@/db/schema/member";
 import { server as serverSchema } from "@/db/schema/server";
 import { currentProfile } from "@/lib/currentProfile";
+
+export const runtime = "edge";
 
 export async function PATCH(
   request: Request,
