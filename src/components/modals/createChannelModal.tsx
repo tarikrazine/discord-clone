@@ -1,11 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import qs from "query-string"
 
 import {
   Dialog,
@@ -32,12 +33,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/useModalStore";
-import { ChannelType, channel } from "@/db/schema/channel";
 
 const Type = Object.freeze({
-  TEXT: 0,
-  AUDIO: 1,
-  VIDEO: 2,
+  0: "TEXT",
+  1: "AUDIO",
+  2: "VIDEO",
 });
 
 const formValidation = z.object({
@@ -45,13 +45,14 @@ const formValidation = z.object({
     .string()
     .min(1, { message: "Channel name is required." })
     .refine((name) => name !== "general", {
-      message: `Channel name cannot be 'general'`,
+      message: `Channel name cannot be "general"`,
     }),
-  //type:  z.nativeEnum(),
+  type:  z.nativeEnum(Type),
 });
 
 function CreateChannelModal() {
   const router = useRouter();
+  const params = useParams()
 
   const { isOpen, onClose, type } = useModal();
 
@@ -61,7 +62,7 @@ function CreateChannelModal() {
     resolver: zodResolver(formValidation),
     defaultValues: {
       name: "",
-      type: channel.type.enumValues["0"],
+      type: Type[0],
     },
   });
 
@@ -69,7 +70,14 @@ function CreateChannelModal() {
 
   async function onSubmit(values: z.infer<typeof formValidation>) {
     try {
-      await axios.post("/api/channels", values);
+      const query = qs.stringifyUrl({
+        url: "/api/channels",
+        query: {
+          serverId: params?.serverId
+        },
+      })
+
+      await axios.post(query, values);
 
       form.reset();
       router.refresh();
@@ -135,16 +143,17 @@ function CreateChannelModal() {
                       </FormControl>
                       <SelectContent>
                         {
-                          Object.values(channel.type.enumValues).map((type) => (
-                            <SelectItem key={type} value={type} className="capitalize">
+                          Object.values(Type).map((type) => (
+                            <SelectItem key={type} value={type} className="capitalize hover:bg-zinc-800">
                               {
-                                type
+                                type.toLowerCase()
                               }
                             </SelectItem>
                           ))
                         }
                       </SelectContent>
                     </Select>
+                    <FormMessage />
                   </FormItem>
                 )}
               />

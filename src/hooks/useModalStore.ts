@@ -9,7 +9,8 @@ export type ModalType =
   | "INVITE"
   | "EDIT_SERVER"
   | "MEMBERS"
-  | "CREATE_CHANNEL";
+  | "CREATE_CHANNEL"
+  | "LEAVE_SERVER";
 
 type Server = ServerType & {
   members: MemberType[];

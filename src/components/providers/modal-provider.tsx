@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react"
 
-import CreateServerModal from "../modals/createServerModal"
-import EditServerModal from "../modals/editServerModal"
-import InviteModal from "../modals/inviteModal"
-import MembersModal from "../modals/membersModal"
-import CreateChannelModal from "../modals/createChannelModal"
+import CreateServerModal from "@/components/modals/createServerModal"
+import EditServerModal from "@/components/modals/editServerModal"
+import InviteModal from "@/components/modals/inviteModal"
+import MembersModal from "@/components/modals/membersModal"
+import CreateChannelModal from "@/components/modals/createChannelModal"
+import LeaveServerModal from "@/components/modals/leaveServerModal"
 
 function ModalProvider() {
 
@@ -22,11 +23,12 @@ function ModalProvider() {
 
     return (
         <>
+            <InviteModal />
             <CreateServerModal />
             <EditServerModal />
             <CreateChannelModal />
             <MembersModal />
-            <InviteModal />
+            <LeaveServerModal />
         </>
     )
 }

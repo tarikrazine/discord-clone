@@ -29,7 +29,7 @@ async function NavigationSideBar() {
     }
   })
 
-  if (!servers[0].server) {
+  if (!servers[0]?.server) {
     redirect("/");
   }
   
