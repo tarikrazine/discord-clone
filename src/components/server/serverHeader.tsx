@@ -81,7 +81,7 @@ function ServerHeader(props: ServerHeaderProps) {
         ) : null}
         {isModerator ? <DropdownMenuSeparator /> : null}
         {isAdmin ? (
-          <DropdownMenuItem className="text-rose-600 px-3 py-2 cursor-pointer text-sm">
+          <DropdownMenuItem className="text-rose-600 px-3 py-2 cursor-pointer text-sm" onClick={() => onOpen("DELETE_SERVER", { server: props.server })}>
             Delete server
             <Trash className="w-4 h-4 ml-auto" />
           </DropdownMenuItem>
