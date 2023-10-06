@@ -9,7 +9,7 @@ import { server as serverSchema } from "@/db/schema/server";
 
 export const runtime = "edge";
 
-export async function PATCH(
+export async function DELETE(
   request: Request,
   { params }: { params: { serverId: string } },
 ) {
