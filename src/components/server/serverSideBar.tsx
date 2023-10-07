@@ -33,7 +33,7 @@ const iconChannelMap = {
 const iconRoleMap = {
   [MemberRole[0]]: null,
   [MemberRole[1]]: <ShieldCheck className="mr-2 w-4 h-2 text-indigo-500" />,
-  [MemberRole[2]]: <ShieldAlert className="mr-2 w-4 h-2 text-indigo-500" />,
+  [MemberRole[2]]: <ShieldAlert className="mr-2 w-4 h-2 text-rose-500" />,
 };
 
 interface ServerSideBarProps {
