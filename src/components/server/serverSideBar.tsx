@@ -11,18 +11,10 @@ import { server as serverSchema } from "@/db/schema/server";
 import ServerHeader from "./serverHeader";
 import { ScrollArea } from "../ui/scroll-area";
 import ServerSearch from "./serverSearch";
-
-const ChannelType = Object.freeze({
-  0: "TEXT",
-  1: "AUDIO",
-  2: "VIDEO",
-});
-
-const MemberRole = Object.freeze({
-  0: "GUEST",
-  1: "MODERATOR",
-  2: "ADMIN",
-});
+import { Separator } from "../ui/separator";
+import ServerSection from "./serverSection";
+import { ChannelType, MemberRole } from "@/types";
+import ServerChannel from "./serverChannel";
 
 const iconChannelMap = {
   [ChannelType[0]]: <Hash className="mr-2 h-4 w-4" />,
@@ -130,6 +122,25 @@ async function ServerSideBar(props: ServerSideBarProps) {
             ]}
           />
         </div>
+        <Separator className="rounded-md bg-zinc-200 dark:bg-zinc-700 my-2" />
+        {
+          !!textChannels?.length 
+          ? <div className="mb-2">
+            <ServerSection
+              label="Text channels"
+              role={role!}
+              channelType={ChannelType[0]}
+              sectionType="channels"
+              server={server}
+            />
+            {
+              textChannels.map((channel) => (
+                <ServerChannel key={channel.id} channel={channel} server={server} role={role!} />
+              ))
+            }
+          </div>
+          : null
+        }
       </ScrollArea>
     </div>
   );

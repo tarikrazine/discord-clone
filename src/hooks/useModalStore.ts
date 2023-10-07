@@ -13,7 +13,7 @@ export type ModalType =
   | "LEAVE_SERVER"
   | "DELETE_SERVER";
 
-type Server = ServerType & {
+export type Server = ServerType & {
   members: MemberType[];
   channels: ChannelType[];
 };
