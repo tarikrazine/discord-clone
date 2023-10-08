@@ -6,7 +6,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import qs from "query-string"
+import qs from "query-string";
 
 import {
   Dialog,
@@ -33,6 +33,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/useModalStore";
+import { useEffect } from "react";
 
 const Type = Object.freeze({
   0: "TEXT",
@@ -47,14 +48,14 @@ const formValidation = z.object({
     .refine((name) => name !== "general", {
       message: `Channel name cannot be "general"`,
     }),
-  type:  z.nativeEnum(Type),
+  type: z.nativeEnum(Type),
 });
 
 function CreateChannelModal() {
   const router = useRouter();
-  const params = useParams()
+  const params = useParams();
 
-  const { isOpen, onClose, type } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
 
   const isModalOpen = isOpen && type === "CREATE_CHANNEL";
 
@@ -62,9 +63,17 @@ function CreateChannelModal() {
     resolver: zodResolver(formValidation),
     defaultValues: {
       name: "",
-      type: Type[0],
+      type: data.channelType || Type[0],
     },
   });
+
+  useEffect(() => {
+    if (data.channelType) {
+      form.setValue("type", data.channelType);
+    } else {
+      form.setValue("type", "TEXT");
+    }
+  }, [data.channelType, form]);
 
   const isLoading = form.formState.isSubmitting;
 
@@ -73,9 +82,9 @@ function CreateChannelModal() {
       const query = qs.stringifyUrl({
         url: "/api/channels",
         query: {
-          serverId: params?.serverId
+          serverId: params?.serverId,
         },
-      })
+      });
 
       await axios.post(query, values);
 
@@ -135,22 +144,23 @@ function CreateChannelModal() {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger
-                          className="bg-zinc-300/50 border-0 focus:ring-0 text-black ring-offset-0 focus:ring-offset-0 capitalize outline-none"
-                        >
-                          <SelectValue className="" placeholder="Select a channel type" />
+                        <SelectTrigger className="bg-zinc-300/50 border-0 focus:ring-0 text-black ring-offset-0 focus:ring-offset-0 capitalize outline-none">
+                          <SelectValue
+                            className=""
+                            placeholder="Select a channel type"
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {
-                          Object.values(Type).map((type) => (
-                            <SelectItem key={type} value={type} className="capitalize hover:bg-zinc-800">
-                              {
-                                type.toLowerCase()
-                              }
-                            </SelectItem>
-                          ))
-                        }
+                        {Object.values(Type).map((type) => (
+                          <SelectItem
+                            key={type}
+                            value={type}
+                            className="capitalize hover:bg-zinc-800"
+                          >
+                            {type.toLowerCase()}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />

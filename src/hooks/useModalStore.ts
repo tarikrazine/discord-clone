@@ -20,6 +20,7 @@ export type Server = ServerType & {
 
 interface ModalData {
   server?: Server;
+  channelType?: "TEXT" | "AUDIO" | "VIDEO";
 }
 
 export interface ModalStore {
