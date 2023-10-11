@@ -44,6 +44,6 @@ export async function PATCH(
     return NextResponse.json({ server }, { status: 200 });
   } catch (error) {
     console.log("[LEAVE_PATCH]", error);
-    return NextResponse.json({ message: "Internal Server" }, { status: 500 });
+    return NextResponse.json({ message: "Internal error" }, { status: 500 });
   }
 }

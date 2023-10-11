@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -34,6 +34,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/useModalStore";
 import { useEffect } from "react";
+import { ChannelType } from "@/types";
 
 const Type = Object.freeze({
   0: "TEXT",
@@ -51,42 +52,40 @@ const formValidation = z.object({
   type: z.nativeEnum(Type),
 });
 
-function CreateChannelModal() {
+function EditChannelModal() {
   const router = useRouter();
-  const params = useParams();
 
   const { isOpen, onClose, type, data } = useModal();
 
-  const isModalOpen = isOpen && type === "CREATE_CHANNEL";
+  const isModalOpen = isOpen && type === "EDIT_CHANNEL";
 
   const form = useForm({
     resolver: zodResolver(formValidation),
     defaultValues: {
       name: "",
-      type: data.channelType || Type[0],
+      type: data.channel?.type! || ChannelType[0],
     },
   });
 
   useEffect(() => {
-    if (data.channelType) {
-      form.setValue("type", data.channelType);
-    } else {
-      form.setValue("type", "TEXT");
+    if (data.channel) {
+      form.setValue("name", data.channel?.name!)
+      form.setValue("type", data.channel?.type!)
     }
-  }, [data.channelType, form]);
+  }, [data.channel, form]);
 
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof formValidation>) {
     try {
       const query = qs.stringifyUrl({
-        url: "/api/channels",
+        url: `/api/channels/${data.channel?.id}`,
         query: {
-          serverId: params?.serverId,
+          serverId: data.server?.id,
         },
       });
 
-      await axios.post(query, values);
+      await axios.patch(query, values);
 
       form.reset();
       router.refresh();
@@ -106,7 +105,7 @@ function CreateChannelModal() {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Create Channel
+            Edit Channel
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
@@ -176,7 +175,7 @@ function CreateChannelModal() {
                 className=""
                 disabled={isLoading}
               >
-                Create
+                Save
               </Button>
             </DialogFooter>
           </form>
@@ -186,4 +185,4 @@ function CreateChannelModal() {
   );
 }
 
-export default CreateChannelModal;
+export default EditChannelModal

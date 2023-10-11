@@ -23,7 +23,7 @@ function DeleteChannelModal() {
   const [isLoading, setIsLoading] = useState(false);
   const router  = useRouter()
 
-  const { onOpen, isOpen, onClose, type, data } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
 
   const isModalOpen = isOpen && type === "DELETE_CHANNEL";
 
@@ -32,9 +32,8 @@ function DeleteChannelModal() {
     try {
       setIsLoading(true)
       const url = qs.stringifyUrl({
-        url: `/api/channels`,
+        url: `/api/channels/${data.channel?.id}`,
         query: {
-          channelId: data.channel?.id,
           serverId: data.server?.id
         }
       })
@@ -43,7 +42,7 @@ function DeleteChannelModal() {
 
       onClose();
       router.refresh();
-      router.push("/");    
+      router.push(`/servers/${data.server?.id}`);    
     } catch (error) {
       console.log(error)
     } finally {
@@ -60,7 +59,7 @@ function DeleteChannelModal() {
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
             Are you sure you want to do this? <br />
-            <span className="text-indigo-500 font-semibold">{data.channel?.name}</span> will be permanently deleted. 
+            <span className="text-indigo-500 font-semibold">#{data.channel?.name}</span> will be permanently deleted. 
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="bg-gray-100 px-6 py-4">

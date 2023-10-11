@@ -13,10 +13,11 @@ export type ModalType =
   | "CREATE_CHANNEL"
   | "LEAVE_SERVER"
   | "DELETE_SERVER"
-  | "DELETE_CHANNEL";
+  | "DELETE_CHANNEL"
+  | "EDIT_CHANNEL";
 
 export type Server = ServerType & {
-  members: MemberType[] | MemberType & { profile: ProfileType };
+  members: MemberType & { profile: ProfileType } | MemberType[];
   channels: ChannelType | ChannelType[];
 };
 
