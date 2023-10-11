@@ -9,6 +9,7 @@ import MembersModal from "@/components/modals/membersModal"
 import CreateChannelModal from "@/components/modals/createChannelModal"
 import LeaveServerModal from "@/components/modals/leaveServerModal"
 import DeleteServerModal from "@/components/modals/deleteServerModal"
+import DeleteChannelModal from "@/components/modals/deleteChannelModal"
 
 function ModalProvider() {
 
@@ -31,6 +32,7 @@ function ModalProvider() {
             <MembersModal />
             <LeaveServerModal />
             <DeleteServerModal />
+            <DeleteChannelModal />
         </>
     )
 }

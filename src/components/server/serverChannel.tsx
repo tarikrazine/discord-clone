@@ -9,6 +9,7 @@ import { ServerType } from "@/db/schema/server";
 import { ChannelType } from "@/types";
 import { cn } from "@/lib/utils";
 import ActionTooltip from "../actionTooltip";
+import { useModal } from "@/hooks/useModalStore";
 
 const iconChannelMap = {
   TEXT: Hash,
@@ -25,6 +26,8 @@ interface ServerChannelProps {
 function ServerChannel(props: ServerChannelProps) {
   const params = useParams();
   const router = useRouter;
+
+  const { onOpen } = useModal()
 
   const Icon = iconChannelMap[props.channel?.type!];
 
@@ -55,8 +58,8 @@ function ServerChannel(props: ServerChannelProps) {
           <ActionTooltip label="Edit">
             <Edit className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
           </ActionTooltip>
-          <ActionTooltip label="Edit">
-            <Trash className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
+          <ActionTooltip label="Delete">
+            <Trash className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" onClick={() => { onOpen("DELETE_CHANNEL", { channel: props.channel, server: props.server as any }) }} />
           </ActionTooltip>
         </div>
       ) : null}

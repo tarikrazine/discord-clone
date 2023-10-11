@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { ChannelType } from "@/db/schema/channel";
 import { MemberType } from "@/db/schema/member";
 import { ServerType } from "@/db/schema/server";
+import { ProfileType } from "@/db/schema/profile";
 
 export type ModalType =
   | "CREATE_SERVER"
@@ -11,15 +12,17 @@ export type ModalType =
   | "MEMBERS"
   | "CREATE_CHANNEL"
   | "LEAVE_SERVER"
-  | "DELETE_SERVER";
+  | "DELETE_SERVER"
+  | "DELETE_CHANNEL";
 
 export type Server = ServerType & {
-  members: MemberType[];
-  channels: ChannelType[];
+  members: MemberType[] | MemberType & { profile: ProfileType };
+  channels: ChannelType | ChannelType[];
 };
 
 interface ModalData {
   server?: Server;
+  channel?: ChannelType;
   channelType?: "TEXT" | "AUDIO" | "VIDEO";
 }
 
