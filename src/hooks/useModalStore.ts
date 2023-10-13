@@ -20,7 +20,7 @@ interface Members extends MemberType {
   profile: ProfileType;
 }
 
-type Server = ServerType & {
+export type Server = ServerType & {
   members: Members[];
   channels: ChannelType[];
 };
