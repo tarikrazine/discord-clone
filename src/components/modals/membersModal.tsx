@@ -110,7 +110,7 @@ function MembersModal() {
             Manage Members
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
-            {data.server?.members?.length > 0 ? <>{data.server?.members?.length} Members</>  : null}
+            {data.server?.members ? <>{data.server?.members?.length} Members</>  : null}
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="mt-8 max-h-[420px] pr-6">
