@@ -18,7 +18,7 @@ export type ModalType =
 
 export type Server = ServerType & {
   members: MemberType[];
-  channels: ChannelType | ChannelType[];
+  channels: ChannelType[];
 };
 
 interface ModalData {

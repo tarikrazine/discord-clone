@@ -43,6 +43,8 @@ import {
 } from "lucide-react";
 import { MemberType } from "@/db/schema/member";
 import { useRouter } from "next/navigation";
+import { ProfileType } from "@/db/schema/profile";
+import { ChannelType } from "@/db/schema/channel";
 
 const roleIconMap = {
   GUEST: null,
@@ -114,9 +116,9 @@ function MembersModal() {
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="mt-8 max-h-[420px] pr-6">
-          {data.server?.members?.map((member) => (
+          {data.server?.members?.map((member: any) => (
             <div key={member.id} className="flex items-center gap-x-2 mb-6">
-              <UserAvatar src={member.profile.imageUrl} />
+              <UserAvatar src={member?.profile.imageUrl} />
               <div className="flex flex-col gap-y-1">
                 <div className="text-xs font-semibold flex items-center gap-x-1">
                   {member.profile.name}
