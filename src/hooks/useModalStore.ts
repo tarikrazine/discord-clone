@@ -17,7 +17,7 @@ export type ModalType =
   | "EDIT_CHANNEL";
 
 export type Server = ServerType & {
-  members: MemberType & { profile: ProfileType } | MemberType[];
+  members: MemberType[];
   channels: ChannelType | ChannelType[];
 };
 
