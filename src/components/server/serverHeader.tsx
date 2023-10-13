@@ -22,9 +22,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useModal } from "@/hooks/useModalStore";
+import { ProfileType } from "@/db/schema/profile";
+
+interface Profile {
+  profile: ProfileType;
+}
 
 type Server = ServerType & {
-  members: MemberType[];
+  members: MemberType[] & Profile;
   channels: ChannelType[];
 };
 
