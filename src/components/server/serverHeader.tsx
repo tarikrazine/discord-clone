@@ -24,12 +24,12 @@ import {
 import { useModal } from "@/hooks/useModalStore";
 import { ProfileType } from "@/db/schema/profile";
 
-interface Profile {
-  profile: ProfileType;
+interface Members extends MemberType {
+  profile: ProfileType
 }
 
 type Server = ServerType & {
-  members: MemberType[] & Profile;
+  members: Members[];
   channels: ChannelType[];
 };
 

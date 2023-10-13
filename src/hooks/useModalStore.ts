@@ -16,12 +16,12 @@ export type ModalType =
   | "DELETE_CHANNEL"
   | "EDIT_CHANNEL";
 
-interface Profile {
+interface Members extends MemberType {
   profile: ProfileType;
 }
 
-export type Server = ServerType & {
-  members: MemberType[] & Profile;
+type Server = ServerType & {
+  members: Members[];
   channels: ChannelType[];
 };
 
