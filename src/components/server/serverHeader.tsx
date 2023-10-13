@@ -34,7 +34,7 @@ type Server = ServerType & {
 };
 
 interface ServerHeaderProps {
-  server: Server;
+  server: ServerType;
   role?: MemberType["role"];
 }
 
@@ -57,7 +57,7 @@ function ServerHeader(props: ServerHeaderProps) {
         {isModerator ? (
           <DropdownMenuItem
             className="text-indigo-600 dark:text-indigo-400 px-3 py-2 cursor-pointer text-sm"
-            onClick={() => onOpen("INVITE", { server: props.server })}
+            onClick={() => onOpen("INVITE", { server: props.server as Server })}
           >
             Invite people
             <UserPlus className="w-4 h-4 ml-auto" />
@@ -66,14 +66,14 @@ function ServerHeader(props: ServerHeaderProps) {
         {isAdmin ? (
           <DropdownMenuItem
             className="px-3 py-2 cursor-pointer text-sm"
-            onClick={() => onOpen("EDIT_SERVER", { server: props.server })}
+            onClick={() => onOpen("EDIT_SERVER", { server: props.server as Server })}
           >
             Server settings
             <Settings className="w-4 h-4 ml-auto" />
           </DropdownMenuItem>
         ) : null}
         {isAdmin ? (
-          <DropdownMenuItem className="px-3 py-2 cursor-pointer text-sm" onClick={() => onOpen("MEMBERS", { server: props.server })}>
+          <DropdownMenuItem className="px-3 py-2 cursor-pointer text-sm" onClick={() => onOpen("MEMBERS", { server: props.server as Server })}>
             Manage members
             <User className="w-4 h-4 ml-auto" />
           </DropdownMenuItem>
@@ -86,13 +86,13 @@ function ServerHeader(props: ServerHeaderProps) {
         ) : null}
         {isModerator ? <DropdownMenuSeparator /> : null}
         {isAdmin ? (
-          <DropdownMenuItem className="text-rose-600 px-3 py-2 cursor-pointer text-sm" onClick={() => onOpen("DELETE_SERVER", { server: props.server })}>
+          <DropdownMenuItem className="text-rose-600 px-3 py-2 cursor-pointer text-sm" onClick={() => onOpen("DELETE_SERVER", { server: props.server as Server })}>
             Delete server
             <Trash className="w-4 h-4 ml-auto" />
           </DropdownMenuItem>
         ) : null}
         {!isAdmin ? (
-          <DropdownMenuItem className="text-rose-600 px-3 py-2 cursor-pointer text-sm" onClick={() => onOpen("LEAVE_SERVER", { server: props.server })}>
+          <DropdownMenuItem className="text-rose-600 px-3 py-2 cursor-pointer text-sm" onClick={() => onOpen("LEAVE_SERVER", { server: props.server as Server })}>
             Leave server
             <LogOut className="w-4 h-4 ml-auto" />
           </DropdownMenuItem>

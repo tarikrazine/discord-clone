@@ -5,13 +5,14 @@ import { Plus, Settings } from "lucide-react";
 import { Server, useModal } from "@/hooks/useModalStore";
 import ActionTooltip from "../actionTooltip";
 import { MemberRole } from "@/types";
+import { ServerType } from "@/db/schema/server";
 
 interface ServerSectionProps {
   label: string;
   role?: "ADMIN" | "MODERATOR" | "GUEST";
   channelType?: "TEXT" | "AUDIO" | "VIDEO";
   sectionType: string;
-  server: Server;
+  server: ServerType;
 }
 
 function ServerSection(props: ServerSectionProps) {
@@ -35,7 +36,7 @@ function ServerSection(props: ServerSectionProps) {
         <ActionTooltip label="Manage members" side="top">
           <button
             className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
-            onClick={() => onOpen("MEMBERS", { server: props.server })}
+            onClick={() => onOpen("MEMBERS", { server: props.server as any })}
           >
             <Settings className="h-4 w-4" />
           </button>

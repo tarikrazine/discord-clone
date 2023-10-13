@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { ShieldAlert, ShieldCheck } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import UserAvatar from "../userAvatar";
+import { ServerType } from "@/db/schema/server";
 
 const iconRoleMap = {
   GUEST: null,
@@ -16,7 +17,7 @@ const iconRoleMap = {
 
 interface ServerMemberProps {
   member: MemberType & { profile: ProfileType };
-  server: Server;
+  server: ServerType;
 }
 
 function ServerMember(props: ServerMemberProps) {
