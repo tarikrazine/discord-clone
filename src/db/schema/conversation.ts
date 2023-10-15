@@ -28,8 +28,8 @@ export const conversation = pgTable("conversation", {
   return {
     memberOneIdx: index("member_one_idx").on(conversation.memberOneId),
     memberTwoIdx: index("member_two_idx").on(conversation.memberTwoId),
-    memberOneUIdx: uniqueIndex("member_one_idx").on(conversation.memberOneId),
-    memberTwoUIdx: uniqueIndex("member_two_idx").on(conversation.memberTwoId),
+    memberOneUIdx: uniqueIndex("member_one_uidx").on(conversation.memberOneId),
+    memberTwoUIdx: uniqueIndex("member_two_uidx").on(conversation.memberTwoId),
   };
 });
 
