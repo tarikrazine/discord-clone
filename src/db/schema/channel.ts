@@ -5,6 +5,7 @@ import { profile } from "./profile";
 import { relations } from "drizzle-orm";
 import { server } from "./server";
 import { type } from "./typeChannel";
+import { message } from "./message";
 
 export const channel = pgTable("channel", {
   id: text("id")
@@ -31,7 +32,7 @@ export const channel = pgTable("channel", {
 
 export type ChannelType = typeof channel.$inferSelect;
 
-export const channelRelations = relations(channel, ({ one }) => ({
+export const channelRelations = relations(channel, ({ one, many }) => ({
   profile: one(profile, {
     fields: [channel.profileId],
     references: [profile.id],
@@ -40,4 +41,5 @@ export const channelRelations = relations(channel, ({ one }) => ({
     fields: [channel.serverId],
     references: [server.id],
   }),
+  messages: many(message),
 }));
