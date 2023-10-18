@@ -17,17 +17,19 @@ export const conversation = pgTable("conversation", {
   memberOneId: text("member_one_id").references(() => member.id, {
     onUpdate: "cascade",
     onDelete: "cascade",
-  }).unique(),
+  }),
   memberTwoId: text("member_two_id").references(() => member.id, {
     onUpdate: "cascade",
     onDelete: "cascade",
-  }).unique(),
+  }),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }),
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
 }, (conversation) => {
   return {
     memberOneIdx: index("member_one_idx").on(conversation.memberOneId),
     memberTwoIdx: index("member_two_idx").on(conversation.memberTwoId),
+    memberOneUIdx: index("member_one_uidx").on(conversation.memberOneId),
+    memberTwoUIdx: index("member_two_uidx").on(conversation.memberTwoId),
   };
 });
 
