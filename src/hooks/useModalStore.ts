@@ -14,7 +14,8 @@ export type ModalType =
   | "LEAVE_SERVER"
   | "DELETE_SERVER"
   | "DELETE_CHANNEL"
-  | "EDIT_CHANNEL";
+  | "EDIT_CHANNEL"
+  | "MESSAGE_FILE";
 
 interface Members extends MemberType {
   profile: ProfileType;
@@ -29,6 +30,8 @@ interface ModalData {
   server?: Server;
   channel?: ChannelType;
   channelType?: "TEXT" | "AUDIO" | "VIDEO";
+  apiUrl?: string;
+  query?: Record<string, any>;
 }
 
 export interface ModalStore {
