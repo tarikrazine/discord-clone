@@ -10,6 +10,7 @@ import { channel as channelSchema } from "@/db/schema/channel";
 import { member as memberSchema } from "@/db/schema/member";
 import ChatHeader from "@/components/chat/chatHeader";
 import ChatInput from "@/components/chat/chatInput";
+import ChatMessages from "@/components/chat/chatMessage";
 
 export default async function ChannelIdPage(props: {
   params: { serverId: string; channelId: string };
@@ -39,7 +40,20 @@ export default async function ChannelIdPage(props: {
         name={channel.name}
         type="channel"
       />
-      <div className="flex-1">Chat messages</div>
+      <ChatMessages
+        type="channel"
+        name={channel.name}
+        member={member}
+        chatId={channel.id}
+        apiUrl="/api/messages"
+        socketUrl="/api/socket/messages"
+        socketQuery={{
+          channelId: channel.id,
+          serverId: channel.serverId!,
+        }}
+        paramKey="channelId"
+        paramValue={channel.id}
+      />
       <ChatInput
         name={channel.name}
         type="channel"
