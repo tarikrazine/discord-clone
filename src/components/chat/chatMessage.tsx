@@ -1,3 +1,5 @@
+"use client"
+
 import { MemberType } from "@/db/schema/member";
 import ChatWelcome from "./chatWelcome";
 import { useChatQuery } from "@/hooks/useChatQuery";
