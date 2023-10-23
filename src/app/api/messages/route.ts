@@ -9,6 +9,8 @@ import { message as messageSchema, MessageType } from "@/db/schema/message";
 import { MemberType } from "@/db/schema/member";
 import { ProfileType } from "@/db/schema/profile";
 
+export const runtime = "edge";
+
 const MESSAGES_BATCH = 10;
 
 interface Member extends MemberType {
