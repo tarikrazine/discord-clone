@@ -1,8 +1,13 @@
 "use client"
 
+import { Fragment } from "react";
+
+import { Loader2, ServerCrash } from "lucide-react";
+
 import { MemberType } from "@/db/schema/member";
 import ChatWelcome from "./chatWelcome";
 import { useChatQuery } from "@/hooks/useChatQuery";
+import { Messages } from "@/app/api/messages/route";
 
 interface ChatMessagesProps {
   name: string;
@@ -22,10 +27,43 @@ function ChatMessages(props: ChatMessagesProps) {
   
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useChatQuery({apiUrl: props.apiUrl, paramKey: props.paramKey, paramValue: props.paramValue, queryKey})
 
+  if (status === "pending") {
+    return (
+      <div className="flex flex-1 justify-center items-center flex-col sm:flex-row">
+        <Loader2 className="h-7 w-7 text-zinc-500 animate-spin my-4 mr-2" />
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">Loading messages...</p>
+      </div>
+    )
+  }
+
+  if (status === "error") {
+    return (
+      <div className="flex flex-1 justify-center items-center flex-col sm:flex-row">
+        <ServerCrash className="h-7 w-7 text-zinc-500 my-4 mr-2" />
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">Something went wrong!</p>
+      </div>
+    )
+  }
+
+  console.log(data)
+
   return (
     <div className="flex-1 flex flex-col py-4 overflow-y-auto">
       <div className="flex-1" />
       <ChatWelcome type={props.type} name={props.name} />
+      <div className="flex flex-col-reverse mt-auto">
+      {data?.pages?.map((group: any, i) => (
+          <Fragment key={i}>
+            {group.items.map((message: Messages) => (
+              <div key={message.id}>
+                {
+                  message.content
+                }
+              </div>
+            ))}
+          </Fragment>
+        ))}
+      </div>
     </div>
   );
 }
