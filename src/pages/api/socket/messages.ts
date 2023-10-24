@@ -85,6 +85,7 @@ export default async function handler(
         content,
         fileUrl,
         createdAt: new Date(),
+        updatedAt: new Date(),
       }).returning();
 
       const messageWithMember = await db.query.message.findFirst({
