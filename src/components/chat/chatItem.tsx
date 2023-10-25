@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 
 import { cn } from "@/lib/utils";
 import { useModal } from "@/hooks/useModalStore";
+import { useParams, useRouter } from "next/navigation";
 
 const formValidation = z.object({
   content: z.string().min(1),
@@ -52,6 +53,17 @@ function ChatItem(props: ChatItemProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   const { onOpen } = useModal();
+
+  const params = useParams()
+  const router = useRouter()
+
+  function onMemberClick() {
+    if (props.member.id === props.currentMember.id) {
+      return
+    }
+
+    router.push(`/servers/${params?.serverId}/conversations/${props.member?.id}`)
+  }
 
   const isAdmin = props.currentMember.role === "ADMIN";
   const moderator = props.currentMember.role === "MODERATOR";
@@ -112,13 +124,13 @@ function ChatItem(props: ChatItemProps) {
   return (
     <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
       <div className="flex group gap-x-2 items-start w-full">
-        <div className="cursor-pointer hover:drop-shadow-md transition">
+        <div onClick={onMemberClick} className="cursor-pointer hover:drop-shadow-md transition">
           <UserAvatar src={props.member?.profile?.imageUrl!} />
         </div>
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center">
-              <p className="text-sm font-semibold hover:underline cursor-pointer">
+              <p onClick={onMemberClick} className="text-sm font-semibold hover:underline cursor-pointer">
                 {props.member?.profile?.name}
               </p>
               <ActionTooltip label={props.member?.role!}>

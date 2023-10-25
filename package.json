@@ -15,7 +15,7 @@
     "migrate": "node --loader ts-node/esm ./src/migrate.ts"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.25.1",
+    "@clerk/nextjs": "^4.25.7",
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
     "@hookform/resolvers": "^3.3.1",
@@ -45,9 +45,9 @@
     "drizzle-orm": "^0.28.6",
     "emoji-mart": "^5.5.2",
     "eslint": "8.49.0",
-    "eslint-config-next": "latest",
+    "eslint-config-next": "13.4.12",
     "lucide-react": "^0.276.0",
-    "next": "13.4.19",
+    "next": "13.4.12",
     "next-themes": "^0.2.1",
     "pg": "^8.11.3",
     "postcss": "8.4.29",

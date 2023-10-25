@@ -10,8 +10,9 @@ import ChatWelcome from "./chatWelcome";
 import { useChatQuery } from "@/hooks/useChatQuery";
 import { Messages } from "@/app/api/messages/route";
 import ChatItem from "./chatItem";
+import useChatSocket from "@/hooks/useChatSocket";
 
-const DATE_FORMAT = "d MMM yyyy, HH:mm"
+const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
 interface ChatMessagesProps {
   name: string;
@@ -27,14 +28,19 @@ interface ChatMessagesProps {
 
 function ChatMessages(props: ChatMessagesProps) {
   const queryKey = `chat:${props.chatId}`;
+  const addKey = `chat:${props.chatId}:messages`
+  const updateKey = `chat:${props.chatId}:messages:update`
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useChatQuery({
-      apiUrl: props.apiUrl,
-      paramKey: props.paramKey,
-      paramValue: props.paramValue,
-      queryKey,
-    });
+  useChatQuery({
+    apiUrl: props.apiUrl,
+    paramKey: props.paramKey,
+    paramValue: props.paramValue,
+    queryKey,
+  });
+  
+  useChatSocket({ addKey, updateKey, queryKey });
+
 
   if (status === "pending") {
     return (
