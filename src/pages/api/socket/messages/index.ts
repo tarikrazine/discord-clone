@@ -107,6 +107,6 @@ export default async function handler(
     });
   } catch (error) {
     console.log("[SOCKET_MESSAGE_POST]", error);
-    return response.status(500).json({ messge: "Internal error" });
+    return response.status(500).json({ message: "Internal error" });
   }
 }

@@ -77,14 +77,31 @@ function ChatItem(props: ChatItemProps) {
     });
   }, [form, props.content]);
 
+  useEffect(() => {
+    function handleKeyDown(event: any) {
+        if (event.key === "Escape" || event.keyCode === 27) {
+            setIsEditing(false)
+        }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
+
+  const isLoading = form.formState.isSubmitting
+
   async function handleForm(values: z.infer<typeof formValidation>) {
     try {
       const url = qs.stringifyUrl({
-        url: props.socketUrl,
+        url: `${props.socketUrl}/${props.id}`,
         query: props.socketQuery,
       });
 
-      await axios.post(url, values);
+      await axios.patch(url, values);
+
+      form.reset()
+      setIsEditing(false)
     } catch (error) {
       console.log(error);
     }
@@ -172,6 +189,7 @@ function ChatItem(props: ChatItemProps) {
                                     <Input 
                                         className="p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
                                         placeholder="Edited message"
+                                        disabled={isLoading}
                                         {...field}
                                     />
                                 </div>
@@ -180,7 +198,11 @@ function ChatItem(props: ChatItemProps) {
                     );
                   }}
                 />
+                <Button size="sm" variant="primary" type="submit" disabled={isLoading}>Save</Button>
               </form>
+              <span className="text-[10px] mt-1 text-zinc-400">
+                Press escape to cancel, enter to save
+              </span>
             </Form>
           ) : null}
         </div>
