@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { cn } from "@/lib/utils";
+import { useModal } from "@/hooks/useModalStore";
 
 const formValidation = z.object({
   content: z.string().min(1),
@@ -49,7 +50,8 @@ interface ChatItemProps {
 
 function ChatItem(props: ChatItemProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+
+  const { onOpen } = useModal();
 
   const isAdmin = props.currentMember.role === "ADMIN";
   const moderator = props.currentMember.role === "MODERATOR";
@@ -79,17 +81,17 @@ function ChatItem(props: ChatItemProps) {
 
   useEffect(() => {
     function handleKeyDown(event: any) {
-        if (event.key === "Escape" || event.keyCode === 27) {
-            setIsEditing(false)
-        }
+      if (event.key === "Escape" || event.keyCode === 27) {
+        setIsEditing(false);
+      }
     }
 
-    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener("keydown", handleKeyDown);
 
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
-  const isLoading = form.formState.isSubmitting
+  const isLoading = form.formState.isSubmitting;
 
   async function handleForm(values: z.infer<typeof formValidation>) {
     try {
@@ -100,8 +102,8 @@ function ChatItem(props: ChatItemProps) {
 
       await axios.patch(url, values);
 
-      form.reset()
-      setIsEditing(false)
+      form.reset();
+      setIsEditing(false);
     } catch (error) {
       console.log(error);
     }
@@ -181,24 +183,31 @@ function ChatItem(props: ChatItemProps) {
                 <FormField
                   control={form.control}
                   name="content"
-                  render={({field}) => {
+                  render={({ field }) => {
                     return (
-                        <FormItem className="flex-1">
-                            <FormControl>
-                                <div className="relative w-full">
-                                    <Input 
-                                        className="p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
-                                        placeholder="Edited message"
-                                        disabled={isLoading}
-                                        {...field}
-                                    />
-                                </div>
-                            </FormControl>
-                        </FormItem>
+                      <FormItem className="flex-1">
+                        <FormControl>
+                          <div className="relative w-full">
+                            <Input
+                              className="p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
+                              placeholder="Edited message"
+                              disabled={isLoading}
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                      </FormItem>
                     );
                   }}
                 />
-                <Button size="sm" variant="primary" type="submit" disabled={isLoading}>Save</Button>
+                <Button
+                  size="sm"
+                  variant="primary"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  Save
+                </Button>
               </form>
               <span className="text-[10px] mt-1 text-zinc-400">
                 Press escape to cancel, enter to save
@@ -218,7 +227,15 @@ function ChatItem(props: ChatItemProps) {
             </ActionTooltip>
           ) : null}
           <ActionTooltip label="Delete">
-            <Trash className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
+            <Trash
+              className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
+              onClick={() =>
+                onOpen("DELETE_MESSAGE", {
+                  apiUrl: `${props.socketUrl}/${props.id}`,
+                  query: props.socketQuery,
+                })
+              }
+            />
           </ActionTooltip>
         </div>
       ) : null}

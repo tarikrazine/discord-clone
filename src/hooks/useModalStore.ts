@@ -15,7 +15,8 @@ export type ModalType =
   | "DELETE_SERVER"
   | "DELETE_CHANNEL"
   | "EDIT_CHANNEL"
-  | "MESSAGE_FILE";
+  | "MESSAGE_FILE"
+  | "DELETE_MESSAGE";
 
 interface Members extends MemberType {
   profile: ProfileType;
