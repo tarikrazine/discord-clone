@@ -35,6 +35,8 @@ export const directMessage = pgTable("direct_message", {
   };
 });
 
+export type DirectMessageType = typeof directMessage.$inferSelect;
+
 export const directMessageRelations = relations(directMessage, ({ one }) => ({
   member: one(member, {
     fields: [directMessage.memberId],

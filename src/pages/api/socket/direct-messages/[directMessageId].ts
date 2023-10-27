@@ -10,6 +10,8 @@ import { server as serverSchema } from "@/db/schema/server";
 import { member as memberSchema } from "@/db/schema/member";
 import { channel as channelSchema } from "@/db/schema/channel";
 import { message as messageSchema } from "@/db/schema/message";
+import { conversation as conversationSchema } from "@/db/schema/conversation";
+import { directMessage as directMessageSchema } from "@/db/schema/directMessage";
 
 export default async function handler(
   request: NextApiRequest,
@@ -29,57 +31,51 @@ export default async function handler(
     content: string;
   };
 
-  const { serverId, channelId, messageId } = request.query;
+  const { conversationId, directMessageId } = request.query;
 
-  if (!serverId) {
-    return response.status(400).json({ message: "Server id missing!" });
+  if (!conversationId) {
+    return response.status(400).json({ message: "Conversation id missing!" });
   }
 
-  if (!channelId) {
-    return response.status(400).json({ message: "Channel id is missing!" });
-  }
-
-  if (!messageId) {
-    return response.status(400).json({ message: "Message id is missing!" });
+  if (!directMessageId) {
+    return response.status(400).json({
+      message: "Direct message id is missing!",
+    });
   }
 
   try {
-    const server = await db.query.server.findFirst({
-      where: eq(serverSchema.id, serverId as string),
+    const conversation = await db.query.conversation.findFirst({
+      where: eq(conversationSchema.id, conversationId as string),
       with: {
-        members: {
-          where: eq(memberSchema.profileId, profile.id),
+        memberOne: {
+          with: {
+            profile: true,
+          },
+        },
+        memberTwo: {
+          with: {
+            profile: true,
+          },
         },
       },
     });
 
-    if (!server) {
-      return response.status(404).json({ message: "Server not found" });
+    if (!conversation) {
+      return response.status(404).json({ message: "Conversation not found!" });
     }
 
-    const channel = await db.query.channel.findFirst({
-      where: and(
-        eq(channelSchema.id, channelId as string),
-        eq(channelSchema.serverId, serverId as string),
-      ),
-    });
-
-    if (!channel) {
-      return response.status(404).json({ message: "Channel not found" });
-    }
-
-    const member = server?.members.find(
-      (member) => member.profileId === profile.id,
-    );
+    const member = conversation?.memberOne?.profileId === profile.id
+      ? conversation?.memberOne
+      : conversation?.memberTwo;
 
     if (!member) {
       return response.status(404).json({ message: "Member not found" });
     }
 
-    let message = await db.query.message.findFirst({
+    let directMessage = await db.query.directMessage.findFirst({
       where: and(
-        eq(messageSchema.id, messageId as string),
-        eq(messageSchema.channelId, channelId as string),
+        eq(directMessageSchema.id, directMessageId as string),
+        eq(directMessageSchema.conversationId, conversationId as string),
       ),
       with: {
         member: {
@@ -90,11 +86,11 @@ export default async function handler(
       },
     });
 
-    if (!message || message.deleted) {
+    if (!directMessage || directMessage.deleted) {
       return response.status(404).json({ message: "Message not found" });
     }
 
-    const isMessageOwner = message.memberId === member.id;
+    const isMessageOwner = directMessage.memberId === member.id;
     const isAdmin = member.role === "ADMIN";
     const isModerator = member.role === "MODERATOR";
     const canModify = isMessageOwner || isAdmin || isModerator;
@@ -106,18 +102,18 @@ export default async function handler(
     if (request.method === "DELETE") {
       await db.transaction(async (tx) => {
         const [deleteMessage] = await tx
-          .update(messageSchema)
+          .update(directMessageSchema)
           .set({
             fileUrl: null,
             content: "This message is deleted",
             deleted: true,
             updatedAt: new Date(),
           })
-          .where(eq(messageSchema.id, message?.id as string))
+          .where(eq(directMessageSchema.id, directMessageId as string))
           .returning();
 
-        message = await db.query.message.findFirst({
-          where: eq(messageSchema.id, deleteMessage.id as string),
+        directMessage = await db.query.directMessage.findFirst({
+          where: eq(directMessageSchema.id, deleteMessage.id as string),
           with: {
             member: {
               with: {
@@ -136,16 +132,16 @@ export default async function handler(
 
       await db.transaction(async (tx) => {
         const [deleteMessage] = await tx
-          .update(messageSchema)
+          .update(directMessageSchema)
           .set({
             content,
             updatedAt: new Date(),
           })
-          .where(eq(messageSchema.id, message?.id as string))
+          .where(eq(directMessageSchema.id, directMessageId as string))
           .returning();
 
-        message = await db.query.message.findFirst({
-          where: eq(messageSchema.id, deleteMessage.id as string),
+        directMessage = await db.query.directMessage.findFirst({
+          where: eq(directMessageSchema.id, deleteMessage.id as string),
           with: {
             member: {
               with: {
@@ -157,11 +153,11 @@ export default async function handler(
       });
     }
 
-    const updateKey = `chat:${channel.id}:messages:update`;
+    const updateKey = `chat:${conversationId}:messages:update`;
 
-    response?.socket?.server?.io?.emit(updateKey, message);
+    response?.socket?.server?.io?.emit(updateKey, directMessage);
 
-    return response.status(200).json({ message });
+    return response.status(200).json({ directMessage });
   } catch (error) {
     console.log("[MESSAGE_ID]", error);
     return response.status(500).json({ message: "Internal error" });
