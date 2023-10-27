@@ -11,6 +11,7 @@ import { member as memberSchema } from "@/db/schema/member";
 import ChatHeader from "@/components/chat/chatHeader";
 import ChatInput from "@/components/chat/chatInput";
 import ChatMessages from "@/components/chat/chatMessage";
+import MediaRoom from "@/components/mediaRoom";
 
 export default async function ChannelIdPage(props: {
   params: { serverId: string; channelId: string };
@@ -40,26 +41,40 @@ export default async function ChannelIdPage(props: {
         name={channel.name}
         type="channel"
       />
-      <ChatMessages
-        type="channel"
-        name={channel.name}
-        member={member}
-        chatId={channel.id}
-        apiUrl="/api/messages"
-        socketUrl="/api/socket/messages"
-        socketQuery={{
-          channelId: channel.id,
-          serverId: channel.serverId!,
-        }}
-        paramKey="channelId"
-        paramValue={channel.id}
-      />
-      <ChatInput
-        name={channel.name}
-        type="channel"
-        apiUrl="/api/socket/messages"
-        query={{ channelId: channel.id, serverId: channel.serverId }}
-      />
+      {channel.type === "TEXT" ? (
+        <>
+          <ChatMessages
+            type="channel"
+            name={channel.name}
+            member={member}
+            chatId={channel.id}
+            apiUrl="/api/messages"
+            socketUrl="/api/socket/messages"
+            socketQuery={{
+              channelId: channel.id,
+              serverId: channel.serverId!,
+            }}
+            paramKey="channelId"
+            paramValue={channel.id}
+          />
+          <ChatInput
+            name={channel.name}
+            type="channel"
+            apiUrl="/api/socket/messages"
+            query={{ channelId: channel.id, serverId: channel.serverId }}
+          />
+        </>
+      ) : null}
+      {
+        channel.type === "AUDIO"
+        ? <MediaRoom chatId={channel.id} audio={true} video={false} />
+        : null
+      }
+      {
+        channel.type === "VIDEO"
+        ? <MediaRoom chatId={channel.id} audio={false} video={true} />
+        : null
+      }
     </div>
   );
 }

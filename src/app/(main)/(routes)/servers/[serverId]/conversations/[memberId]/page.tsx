@@ -1,48 +1,71 @@
-import { redirect } from "next/navigation"
+import { redirect } from "next/navigation";
 
-import { sql } from "drizzle-orm"
-import { redirectToSignIn } from "@clerk/nextjs"
+import { sql } from "drizzle-orm";
+import { redirectToSignIn } from "@clerk/nextjs";
 
-import { db } from "@/db"
-import { channel } from "@/db/schema/channel"
-import { member as memberSchema } from "@/db/schema/member"
-import { currentProfile } from "@/lib/currentProfile"
-import ChatHeader from "@/components/chat/chatHeader"
-import { getOrCreateConversation } from "@/lib/conversation"
-import ChatMessages from "@/components/chat/chatMessage"
-import ChatInput from "@/components/chat/chatInput"
+import { db } from "@/db";
+import { channel } from "@/db/schema/channel";
+import { member as memberSchema } from "@/db/schema/member";
+import { currentProfile } from "@/lib/currentProfile";
+import ChatHeader from "@/components/chat/chatHeader";
+import { getOrCreateConversation } from "@/lib/conversation";
+import ChatMessages from "@/components/chat/chatMessage";
+import ChatInput from "@/components/chat/chatInput";
+import MediaRoom from "@/components/mediaRoom";
 
-export default async function MemberIdPage(props: { params: { serverId: string, memberId: string}}) {
-    const profile = await currentProfile()
+interface MemberIdPageProps {
+  params: { serverId: string; memberId: string };
+  searchParams: { video?: boolean };
+}
 
-    if (!profile) {
-        return redirectToSignIn()
-    }
+export default async function MemberIdPage(props: MemberIdPageProps) {
+  const profile = await currentProfile();
 
-    const currentMember = await db.query.member.findFirst({
-        where: sql`${memberSchema.profileId} = ${profile.id} AND ${memberSchema.serverId} = ${props.params.serverId}`,
-        with: {
-            profile: true
-        }
-    })
+  if (!profile) {
+    return redirectToSignIn();
+  }
 
-    if (!currentMember) {
-        return redirect("/")
-    }
+  const currentMember = await db.query.member.findFirst({
+    where: sql`${memberSchema.profileId} = ${profile.id} AND ${memberSchema.serverId} = ${props.params.serverId}`,
+    with: {
+      profile: true,
+    },
+  });
 
-    const conversation = await getOrCreateConversation(currentMember.id, props.params.memberId)
+  if (!currentMember) {
+    return redirect("/");
+  }
 
-    if (!conversation) {
-        return redirect(`/servers/${props.params.serverId}`)
-    }
-    
-    const { memberOne, memberTwo } = conversation
-    
-    const otherMember = memberOne?.profileId === profile.id ? memberTwo : memberOne
+  const conversation = await getOrCreateConversation(
+    currentMember.id,
+    props.params.memberId
+  );
 
-    return <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
-        <ChatHeader serverId={props.params.serverId} name={otherMember?.profile?.name!} type="conversation" imageUrl={otherMember?.profile?.imageUrl!} />
-        <ChatMessages 
+  if (!conversation) {
+    return redirect(`/servers/${props.params.serverId}`);
+  }
+
+  const { memberOne, memberTwo } = conversation;
+
+  const otherMember =
+    memberOne?.profileId === profile.id ? memberTwo : memberOne;
+
+  return (
+    <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
+      <ChatHeader
+        serverId={props.params.serverId}
+        name={otherMember?.profile?.name!}
+        type="conversation"
+        imageUrl={otherMember?.profile?.imageUrl!}
+      />
+      {
+        props.searchParams.video
+        ? <MediaRoom chatId={conversation.id} video={true} audio={true} />
+        : null
+      }
+      {!props.searchParams.video ? (
+        <>
+          <ChatMessages
             member={currentMember}
             name={otherMember?.profile?.name || ""}
             chatId={conversation.id}
@@ -52,14 +75,17 @@ export default async function MemberIdPage(props: { params: { serverId: string, 
             paramValue={conversation.id}
             socketUrl="/api/socket/direct-messages"
             socketQuery={{
-                conversationId: conversation.id
+              conversationId: conversation.id,
             }}
-        />
-        <ChatInput 
+          />
+          <ChatInput
             apiUrl="/api/socket/direct-messages"
             name={otherMember?.profile?.name || ""}
-            query={{ conversationId: conversation.id}}
+            query={{ conversationId: conversation.id }}
             type="conversation"
-        />
+          />
+        </>
+      ) : null}
     </div>
+  );
 }
